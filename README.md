@@ -28,14 +28,9 @@ If you don't use Touch Portal - how dare you, you should!
 Download and run Open Hardware Monitor - you can find it here: https://openhardwaremonitor.org/
 Current tested version is 0.9.2
 
-After download, open the OpenHardwareMonitor.exe file, for this plugin to run correctly, please enable the following "Options" menu items: //TODO Add Picture instead of text
+After download, open the OpenHardwareMonitor.exe file, for this plugin to run correctly, please enable the following "Options" menu items:
 
-```
-Start Minimized
-Minimize To Tray
-Minimize On Close
-Run On Windows Startup
-```
+![OHM Options](ohm_options.png)
 
 ### Installing
 
