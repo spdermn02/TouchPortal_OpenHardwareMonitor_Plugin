@@ -77,7 +77,7 @@ After download, run the OpenHardwareMonitor.exe file, for this plugin to run cor
 ## Sample Page
 
 I have created a sample page that can be imported directly into Touch Portal and consume all 4 possible values.
-Download and import this page: [TP OHM Page](resources/tp_ohm.tpz)
+Download and import this page: [TP OHM Page](resources/OHM%20Page%20Example.tpz)
 
 ![TP OHM Screenshot](images/tp_ohm_screenshot.png)
 
