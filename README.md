@@ -1,10 +1,10 @@
 # Touch Portal Plugin for Open Hardware Monitor
 
-TouchPortal Plugin to Utilize Statistics from OpenHardwareMonitor
+TouchPortal Plugin to Utilize Statistics from Open Hardware Monitor - for Windows
 
 ## Current Sensors and Values Available
 
-These are the current sensors and values available via this plugin. There are many many more to consider, but this was the first go at it.  This information will be transmitted back to Touch Portal every 2 seconds.  If this becomes a problem I'll probably extract this out into a configuration file so it can be controlled by you.
+These are the current sensors and values available via this plugin. There are many more to consider, but this was the first go at it.  This information will be transmitted back to Touch Portal every 2 seconds.  If this becomes a problem I'll probably extract this out into a configuration file so it can be controlled by you.
 
 #### CPU
 
@@ -41,7 +41,7 @@ If you don't use Touch Portal - how dare you, you should!
 Download and run Open Hardware Monitor - you can find it here: https://openhardwaremonitor.org/
 Current tested version is 0.9.2
 
-Location of where it is downloaded and run from do not matter, as long as it is runnign and writing sensor data it can run from anywhere on the computer.
+Location of where it is downloaded and run from do not matter, as long as it is running and writing sensor data it can run from anywhere on the computer.
 
 After download, run the OpenHardwareMonitor.exe file, for this plugin to run correctly, please enable the following "Options" menu items:
 
@@ -120,6 +120,7 @@ and a little lower you should see something like this:
 ```
 
 If you do not see those messages - visut the #tp_ohm channel on the Touch Portal Discord and we can troubleshoot it when I'm available 
+
 *INFO: more notes will be added here as we have to troubleshoot*
 
 ## Notes
@@ -140,7 +141,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-- **Jameson Allen** - _Initial work_ - [Spdermn02](https://github.com/spdermn02
+- **Jameson Allen** - _Initial work_ - [Spdermn02](https://github.com/spdermn02)
 
 ## License
 
