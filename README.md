@@ -29,11 +29,27 @@ If you don't use Touch Portal - how dare you, you should!
 Download and run Open Hardware Monitor - you can find it here: https://openhardwaremonitor.org/
 Current tested version is 0.9.2
 
-After download, open the OpenHardwareMonitor.exe file, for this plugin to run correctly, please enable the following "Options" menu items:
+Location of where it is downloaded and run from do not matter, as long as it is runnign and writing sensor data it can run from anywhere on the computer.
+
+After download, run the OpenHardwareMonitor.exe file, for this plugin to run correctly, please enable the following "Options" menu items:
 
 ![OHM Options](images/ohm_options.png)
 
 ### Installing
+
+* Grab the OpenHardwareMonitor.tpp file from the github repo. This is a package of the entire Touch Portal Plugin including the executable
+* Open your Touch Portal application
+* Import the plugin by using the Wrench icon.
+  ![Touch Portal Plugin Import](images/touchPortalImportPlugin.png)
+** Navigate the file browser to find the downloaded OpenHardwareMonitor.tpp file
+** Select it and click 'Open' button
+  ![Touch Portal Plugin Import File Browse](images/tpp_file_selector.png)
+* When it is done importing you should see this popup
+  
+
+## Sensors and Values Available
+
+
 
 ## Notes
 
