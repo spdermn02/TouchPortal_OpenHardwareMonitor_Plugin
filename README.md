@@ -81,7 +81,7 @@ Download and import this page: [TP OHM Page](resources/tp_ohm.tpz)
 
 Here is a gif of it in action on my phone:
 
-*Insert Gif here*:w!
+*Insert Gif here*
 
 
 ## Troubleshooting
