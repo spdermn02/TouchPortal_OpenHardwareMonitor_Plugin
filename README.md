@@ -81,7 +81,7 @@ Download and import this page: [TP OHM Page](resources/tp_ohm.tpz)
 
 Here is a gif of it in action on my phone:
 
-*Insert Gif here*
+![TP OHM Example on iPhone XSMax](images/tp_ohm_page_on_phone.gif)
 
 
 ## Troubleshooting
