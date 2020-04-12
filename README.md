@@ -91,6 +91,7 @@ Here is a gif of it in action on my phone:
 This event is triggered off the state id `tpohm_cpu_total_load_status`
 
 Example:
+
 ![TP OHM CPU Total Status](images/tp_ohm_cpu_total_status_event.png)
 
 
@@ -98,6 +99,7 @@ Example:
 This event is triggered off the state id `tpohm_memory_load_status`
 
 Example:
+
 ![TP OHM Memory Status](images/tp_ohm_memory_status_event.png)
 
 
