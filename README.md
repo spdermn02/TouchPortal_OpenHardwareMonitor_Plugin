@@ -40,11 +40,16 @@ After download, run the OpenHardwareMonitor.exe file, for this plugin to run cor
 1. Grab the OpenHardwareMonitor.tpp file from the github repo. This is a package of the entire Touch Portal Plugin including the executable
 1. Open your Touch Portal application
 1. Import the plugin by using the Wrench icon.
+
     ![Touch Portal Plugin Import](images/touch_portal_import_plugin.png)
+
     1. Navigate the file browser to find the downloaded OpenHardwareMonitor.tpp file
+
         ![Touch Portal Plugin Import File Browse](images/tpp_file_selector.png)
+
     1. Select it and click 'Open' button
 1. When it is done importing you should see this popup
+
     ![Touch Portal Plugin Success Import](images/touch_portal_import_plugin_notification.png)
   
 
