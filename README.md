@@ -43,19 +43,69 @@ After download, run the OpenHardwareMonitor.exe file, for this plugin to run cor
 
     ![Touch Portal Plugin Import](images/touch_portal_import_plugin.png)
 
-    1. Navigate the file browser to find the downloaded OpenHardwareMonitor.tpp file
 
-        ![Touch Portal Plugin Import File Browse](images/tpp_file_selector.png)
+1. Navigate the file browser to find the downloaded OpenHardwareMonitor.tpp file
 
-    1. Select it and click 'Open' button
+    ![Touch Portal Plugin Import File Browse](images/tpp_file_selector.png)
+
+1. Select it and click 'Open' button
+    1. _**NOTE**_: You may get a warning saying the plugin is form the internet, do you trust it. If you trust me, accept it.
 1. When it is done importing you should see this popup
 
     ![Touch Portal Plugin Success Import](images/touch_portal_import_plugin_notification.png)
+1. Now restart the Touch Portal app
+   1. _**NOTE**_: Make sure you fully close Touch Portal using System Tray icon to exit
+
+1. After Touch Portal is back open click on an empty button and if you scroll down in the "Add Actions" list, you should see:
+   
+    ![Open Hardware Monitor Info Events](images/open_hardware_monitor_events.png)
+
+    More on those later
   
 
 ## Sensors and Values Available
 
+#### CPU
 
+* **Total CPU Load** - Will output the raw current percentage (to 1 decimal point) of CPU Load
+  * state id is `tpohm_cpu_total_load_val`
+    * Values are: 0.0 - 100.0
+* **CPU Status** (based on Total Load) - called a Threshold in the code
+  * state id is `tpohm_cpu_total_load_status`
+    * Final Values are: `Low, Medium, High`
+      * `Low` is when  &lt; 45% of CPU is used
+      * `Medium` is when  &lt; 85% of CPU is used
+      * `High` is when &gt;= 85% of CPU is used
+
+#### RAM
+
+* **Total Memory Load** - output the raw current percentage (to 1 decimal point) of Memory Load
+  * state id is `tpohm_memory_load_val`
+    * Values are: 0.0 - 100.0
+* **Memory Status** (based on Total Load) - called a Threshold in the code
+  * state id is `tpohm_memory_load_status`
+    * Final Values are: `Low, Medium, High`
+      * `Low` is when  &lt; 40% of Memory is used
+      * `Medium` is when  &lt; 85% of Memory is used
+      * `High` is when &gt;= 85% of Memory is used
+
+## Troubleshooting
+
+Touch Portal will log that it attempted to load the plugin in it's log file
+%APPDATA%\TouchPortal\log.txt
+
+when it loads the Plugin it should look like this
+```
+00:48:02 - [LOG] (Plugin System) Searching and loading plugins...^M
+00:48:02 - [LOG] (Plugin System) (127.0.0.1) Waiting for request on port 12136...^M
+00:48:02 - [LOG] (Plugin System) Added Category: Open Hardware Monitor Info^M
+```
+and a little lower you should see something like this:
+```
+00:48:08 - [LOG] (Plugin System) Executing plugin service: "C:\Users\<USERNAME>\AppData\Roaming\TouchPortal\plugins\OpenHardwareMonitor\tp_ohm.exe"
+```
+
+If you do not see those messages - hit up the #tp_ohm channel on the Touch Portal Discord and we can troubleshoot it when I'm available (more notes will be added here as we have to troubleshoot)
 
 ## Notes
 
