@@ -72,6 +72,16 @@ After download, run the OpenHardwareMonitor.exe file, for this plugin to run cor
 
     More on those later
   
+## Sample Page
+
+I have created a sample page that can be imported directly into Touch Portal and consume all 4 possible values.
+Download and import this page: [TP OHM Page](resources/tp_ohm.tpz)
+
+![TP OHM Screenshot](images/tp_ohm_screenshot.png)
+
+Here is a gif of it in action on my phone:
+
+*Insert Gif here*:w!
 
 
 ## Troubleshooting
@@ -81,16 +91,17 @@ Touch Portal will log that it attempted to load the plugin in it's log file
 
 when it loads the Plugin it should look like this
 ```
-00:48:02 - [LOG] (Plugin System) Searching and loading plugins...^M
-00:48:02 - [LOG] (Plugin System) (127.0.0.1) Waiting for request on port 12136...^M
-00:48:02 - [LOG] (Plugin System) Added Category: Open Hardware Monitor Info^M
+00:48:02 - [LOG] (Plugin System) Searching and loading plugins...
+00:48:02 - [LOG] (Plugin System) (127.0.0.1) Waiting for request on port 12136...
+00:48:02 - [LOG] (Plugin System) Added Category: Open Hardware Monitor Info
 ```
 and a little lower you should see something like this:
 ```
 00:48:08 - [LOG] (Plugin System) Executing plugin service: "C:\Users\<USERNAME>\AppData\Roaming\TouchPortal\plugins\OpenHardwareMonitor\tp_ohm.exe"
 ```
 
-If you do not see those messages - hit up the #tp_ohm channel on the Touch Portal Discord and we can troubleshoot it when I'm available (more notes will be added here as we have to troubleshoot)
+If you do not see those messages - visut the #tp_ohm channel on the Touch Portal Discord and we can troubleshoot it when I'm available 
+*INFO: more notes will be added here as we have to troubleshoot*
 
 ## Notes
 
