@@ -4,6 +4,8 @@ TouchPortal Plugin to Utilize Statistics from OpenHardwareMonitor
 
 ## Current Sensors and Values Available
 
+These are the current sensors and values available via this plugin. There are many many more to consider, but this was the first go at it.  This information will be transmitted back to Touch Portal every 2 seconds.  If this becomes a problem I'll probably extract this out into a configuration file so it can be controlled by you.
+
 #### CPU
 
 * **Total CPU Load** - Will output the raw current percentage (to 1 decimal point) of CPU Load
@@ -82,6 +84,21 @@ Download and import this page: [TP OHM Page](resources/tp_ohm.tpz)
 Here is a gif of it in action on my phone:
 
 ![TP OHM Example on iPhone XSMax](images/tp_ohm_page_on_phone.gif)
+
+## Events
+
+### CPU Total Status
+This event is triggered off the state id `tpohm_cpu_total_load_status`
+
+Example:
+![TP OHM CPU Total Status](images/tp_ohm_cpu_total_status_event.png)
+
+
+### Memory Status
+This event is triggered off the state id `tpohm_memory_load_status`
+
+Example:
+![TP OHM Memory Status](images/tp_ohm_memory_status_event.png)
 
 
 ## Troubleshooting
