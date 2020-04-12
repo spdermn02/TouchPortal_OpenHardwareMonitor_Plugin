@@ -61,7 +61,7 @@ After download, run the OpenHardwareMonitor.exe file, for this plugin to run cor
     ![Touch Portal Plugin Import File Browse](images/tpp_file_selector.png)
 
 1. Select it and click 'Open' button
-    1. _**NOTE**_: You may get a warning saying the plugin is form the internet, do you trust it. If you trust me, accept it.
+    1. _**NOTE**_: You may get a warning saying the plugin is from the internet, do you trust it. If you trust me, accept it.
 1. When it is done importing you should see this popup
 
     ![Touch Portal Plugin Success Import](images/touch_portal_import_plugin_notification.png)
@@ -119,7 +119,7 @@ and a little lower you should see something like this:
 00:48:08 - [LOG] (Plugin System) Executing plugin service: "C:\Users\<USERNAME>\AppData\Roaming\TouchPortal\plugins\OpenHardwareMonitor\tp_ohm.exe"
 ```
 
-If you do not see those messages - visut the #tp_ohm channel on the Touch Portal Discord and we can troubleshoot it when I'm available 
+If you do not see those messages - visit the #tp_ohm channel on the Touch Portal Discord and we can troubleshoot it when I'm available 
 
 *INFO: more notes will be added here as we have to troubleshoot*
 
@@ -127,7 +127,7 @@ If you do not see those messages - visut the #tp_ohm channel on the Touch Portal
 
 - this has only been tested on Windows 10 Pro, your mileage my vary
 - this was tested on a single CPU Desktop machine, your mileage may vary.
-- If you experience issues with the plug please submit an issue with a saved copy of your Open Hardware Monitor report (File -> Save Report), and it will be reviewed as time permits
+- If you experience issues with the plugin please submit an issue with a saved copy of your Open Hardware Monitor report (File -> Save Report), and it will be reviewed as time permits
 
 ## Built With
 
