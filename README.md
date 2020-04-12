@@ -2,21 +2,31 @@
 
 TouchPortal Plugin to Utilize Statistics from OpenHardwareMonitor
 
-## Current Statistics Supported
+## Current Sensors and Values Available
 
-```
-Single CPU Total Load Percentage
-Single CPU Total Status- Low, Medium, High - based on above Percentage
-    Low < 45%
-    Medium < 85%
-    High >= 85%
+#### CPU
 
-Memory Load Percentage
-Memory Load Status - Low, Medium, High - base don above Percentage
-    Low < 40%
-    Medium < 85%
-    High >= 85%
-```
+* **Total CPU Load** - Will output the raw current percentage (to 1 decimal point) of CPU Load
+  * state id is `tpohm_cpu_total_load_val`
+    * Values are: 0.0 - 100.0
+* **CPU Status** (based on Total Load) - called a Threshold in the code
+  * state id is `tpohm_cpu_total_load_status`
+    * Final Values are: `Low, Medium, High`
+      * `Low` is when  &lt; 45% of CPU is used
+      * `Medium` is when  &lt; 85% of CPU is used
+      * `High` is when &gt;= 85% of CPU is used
+
+#### RAM
+
+* **Total Memory Load** - output the raw current percentage (to 1 decimal point) of Memory Load
+  * state id is `tpohm_memory_load_val`
+    * Values are: 0.0 - 100.0
+* **Memory Status** (based on Total Load) - called a Threshold in the code
+  * state id is `tpohm_memory_load_status`
+    * Final Values are: `Low, Medium, High`
+      * `Low` is when  &lt; 40% of Memory is used
+      * `Medium` is when  &lt; 85% of Memory is used
+      * `High` is when &gt;= 85% of Memory is used
 
 ## Getting Started
 
@@ -63,31 +73,6 @@ After download, run the OpenHardwareMonitor.exe file, for this plugin to run cor
     More on those later
   
 
-## Sensors and Values Available
-
-#### CPU
-
-* **Total CPU Load** - Will output the raw current percentage (to 1 decimal point) of CPU Load
-  * state id is `tpohm_cpu_total_load_val`
-    * Values are: 0.0 - 100.0
-* **CPU Status** (based on Total Load) - called a Threshold in the code
-  * state id is `tpohm_cpu_total_load_status`
-    * Final Values are: `Low, Medium, High`
-      * `Low` is when  &lt; 45% of CPU is used
-      * `Medium` is when  &lt; 85% of CPU is used
-      * `High` is when &gt;= 85% of CPU is used
-
-#### RAM
-
-* **Total Memory Load** - output the raw current percentage (to 1 decimal point) of Memory Load
-  * state id is `tpohm_memory_load_val`
-    * Values are: 0.0 - 100.0
-* **Memory Status** (based on Total Load) - called a Threshold in the code
-  * state id is `tpohm_memory_load_status`
-    * Final Values are: `Low, Medium, High`
-      * `Low` is when  &lt; 40% of Memory is used
-      * `Medium` is when  &lt; 85% of Memory is used
-      * `High` is when &gt;= 85% of Memory is used
 
 ## Troubleshooting
 
