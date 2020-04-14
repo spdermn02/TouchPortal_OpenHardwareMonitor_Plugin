@@ -1,2 +1,2 @@
 1.0.0-alpha1
-https://raw.githubusercontent.com/spdermn02/tpohm_plugin/develop/installer/TP_OHM_Setup.exe
+https://github.com/spdermn02/tpohm_plugin/blob/develop/installer/TP_OHM_Setup.exe?raw=true
