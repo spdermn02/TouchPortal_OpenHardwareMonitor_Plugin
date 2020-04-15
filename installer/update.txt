@@ -1,2 +1,2 @@
-1.0.0-alpha-3
+1.0.0-beta-1
 https://github.com/spdermn02/tpohm_plugin/blob/develop/installer/TP_OHM_Setup.exe?raw=true
