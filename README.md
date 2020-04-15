@@ -97,7 +97,7 @@ The Install package has a built-in update executable to run when updates are rel
 
 **Step 4** IF there are no updates available it will popup a window telling you so, and you can stop here. Click "Ok" and it will close the updater.
 
-**Step 5** IF there _**IS*_ an update you should see something like this:
+**Step 5** IF there _**IS**_ an update you should see something like this:
 
   ![TP OpenHardwareMonitor Update Found](images/TP_OHM_UpdateFound.png)
   
