@@ -56,6 +56,7 @@ _**NOTE**_: Default install path is %APPDATA%\TouchPortal\plugins\OpenHardwareMo
 **Step 2** Execute the installer program
 
   **2.1** If you need to change directories click the "Options" button underneath "Install" (you can also disable shortcuts here if you want)
+  
   ![Change Directory Options Button](images/TP_OHM_Setup_ChangeDir.png)
 
 **Step 3** Click the ![INSTALL Button](images/TP_OHM_Setup_InstallButton.png)
