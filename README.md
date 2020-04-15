@@ -85,9 +85,9 @@ The Install package has a built-in update executable to run when updates are rel
 
 **Step 1** If you didn't modify the default install you should see this in your Start Menu Program List
 
-  **1.1** ![TP OpenHardwareMonitor Plugin Program Folder](images/StartMenu_Updater.png)
+  ![TP OpenHardwareMonitor Plugin Program Folder](images/StartMenu_Updater.png)
   
-  **1.1.1** If you do not see that, navigate to the location you installed the plugin to, and locate Updater.exe
+  **1.1** If you do not see that, navigate to the location you installed the plugin to, and locate Updater.exe
   
 **Step 2** Click "Check for Update" or execute Updater.exe depending on the steps above, and it will open this window
 
@@ -99,7 +99,7 @@ The Install package has a built-in update executable to run when updates are rel
 
 **Step 5** IF there _**IS*_ an update you should see something like this:
 
-  **5.1** ![TP OpenHardwareMonitor Update Found](images/TP_OHM_UpdateFound.png)
+  ![TP OpenHardwareMonitor Update Found](images/TP_OHM_UpdateFound.png)
   
 **Step 6** Click "Yes" button to download new version 
 
