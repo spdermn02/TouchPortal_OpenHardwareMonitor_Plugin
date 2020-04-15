@@ -55,13 +55,13 @@ _**NOTE**_: Default install path is %APPDATA%\TouchPortal\plugins\OpenHardwareMo
 1. Execute the installer program
   1. If you need to change directories click the "Options" button underneath "Install" (you can also disable shortcuts here if you want)
 
-      ![Change Directory Options Button](images/TP_OHM_Setup_ChangeDir.png)
+  ![Change Directory Options Button](images/TP_OHM_Setup_ChangeDir.png)
 1. Click the ![INSTALL Button](images/TP_OHM_Setup_InstallButton.png)
   1. It should ask permission to install using UAC (if youhave that enabled) - click "Yes" button
     1. if you don't see it immediately look on your task bar for this icon: ![UAC Indicator](images/UACIndicator.png)
   1. When it is complete you should see this, and click "Finish":
 
-    ![Installation Completed](images/TP_OHM_Setup_InstallCompleted.png)
+  ![Installation Completed](images/TP_OHM_Setup_InstallCompleted.png)
 
 2. Now restart the Touch Portal app
   2. _**NOTE**_: Make sure you fully close Touch Portal using System Tray icon to exit
@@ -77,12 +77,12 @@ _**NOTE**_: Default install path is %APPDATA%\TouchPortal\plugins\OpenHardwareMo
 The Install package has a built-in update executable to run when updates are released of TP Open Hardware Monitor Plugin.
 1. If you didn't modify the default install you should see this in your Start Menu Program List
 
-    ![TP OpenHardwareMonitor Plugin Program Folder](images/StartMenu_Updater.png)
+  ![TP OpenHardwareMonitor Plugin Program Folder](images/StartMenu_Updater.png)
 
   1. If you do not see that, navigate to the location you installed the plugin to, and locate Updater.exe
 1. Click "Check for Update" or execute Updater.exe depending on the steps above, and it will open this window
 
-    ![TP OpenHardwareMonitor Updater](images/TP_OHM_Updater.png)
+  ![TP OpenHardwareMonitor Updater](images/TP_OHM_Updater.png)
     
 1. Click  "Check for Updates" button or "Close" (obviously if you choose Close it will not update)
 1. IF there are no updates available it will popup a window telling you so, and you can stop here. Click "Ok" and it will close the updater.
@@ -94,7 +94,7 @@ The Install package has a built-in update executable to run when updates are rel
 1. It is going to open a web Browser (whichever is your default) to download the new installer
   1. in Chrome you may see this, just click the arrow and select "Keep"
 
-    ![TP OpenHardwareMonitor Update Download Warning](images/TP_OHM_Updater_Warning.png)
+  ![TP OpenHardwareMonitor Update Download Warning](images/TP_OHM_Updater_Warning.png)
 
 1. When the download is finished, run the new installer.
 1. Windows may popup a window like this, go ahead and click 'More Info', and then click 'Run anyway'
