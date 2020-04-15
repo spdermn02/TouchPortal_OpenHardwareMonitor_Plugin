@@ -110,8 +110,7 @@ _**NOTE**_: Default install path is %APPDATA%\TouchPortal\plugins\OpenHardwareMo
 **Step 3** Click the ![INSTALL Button](images/TP_OHM_Setup_InstallButton.png)
 
   **3.1** It should ask permission to install using UAC (if youhave that enabled) - click "Yes" button
-
-    **3.1.1** if you don't see it immediately look on your task bar for this icon: ![UAC Indicator](images/UACIndicator.png)
+          if you don't see it immediately look on your task bar for this icon: ![UAC Indicator](images/UACIndicator.png)
 
   **3.2** When it is complete you should see this, and click "Finish":
 
