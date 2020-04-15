@@ -125,7 +125,7 @@ The Install package has a built-in update executable to run when updates are rel
 
 **Step 13** For some reason if tp_ohm.exe is running, this uninstaller will not kill it, so go ahead and close Touch Portal, which will in turn cause the socket to disconnect, and the program will shut down. Then on the warning about closing previous application click "OK".
 
-**Step 14** When it finishes uninstalling you shoudl see a Success Message
+**Step 14** When it finishes uninstalling you should see a Success Message
 
   ![TP OpenHardwareMonitor Uninstall Success](images/TP_OHM_UninstallComplete.png)
   
