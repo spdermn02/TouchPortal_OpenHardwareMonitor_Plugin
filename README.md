@@ -49,31 +49,72 @@ After download, run the OpenHardwareMonitor.exe file, for this plugin to run cor
 
 ### Installing
 
-1. Grab the [OpenHardwareMonitor.tpp](resources/OpenHardwareMonitor.tpp) file from the github repo. This is a package of the entire Touch Portal Plugin including the executable
-1. Open your Touch Portal application
-1. Import the plugin by using the Wrench icon.
+_**NOTE**_: Default install path is %APPDATA%\TouchPortal\plugins\OpenHardwareMonitor and this install contains the entry.tp file that Touch Portal requires to load the plugin, IF you change your directory to outside the standard Touch Portal plugins folder. this will not work properly.
 
-    ![Touch Portal Plugin Import](images/touch_portal_import_plugin.png)
+1. Download the installer [TP_OHM_Setup.exe](installer/TP_OHM_Setup.exe) file from the github repo. This will install everything needed for TouchPortal to recognize the plugin
+1. Execute the installer program
+  1. If you need to change directories click the "Options" button underneath "Install" (you can also disable shortcuts here if you want)
 
+      ![Change Directory Options Button](images/TP_OHM_Setup_ChangeDir.png)
+1. Click the ![INSTALL Button](images/TP_OHM_Setup_InstallButton.png)
+  1. It should ask permission to install using UAC (if youhave that enabled) - click "Yes" button
+    1. if you don't see it immediately look on your task bar for this icon: ![UAC Indicator](images/UACIndicator.png)
+  1. When it is complete you should see this, and click "Finish":
 
-1. Navigate the file browser to find the downloaded OpenHardwareMonitor.tpp file
+    ![Installation Completed](images/TP_OHM_Setup_InstallCompleted.png)
 
-    ![Touch Portal Plugin Import File Browse](images/tpp_file_selector.png)
+2. Now restart the Touch Portal app
+  2. _**NOTE**_: Make sure you fully close Touch Portal using System Tray icon to exit
 
-1. Select it and click 'Open' button
-    1. _**NOTE**_: You may get a warning saying the plugin is from the internet, do you trust it. If you trust me, accept it.
-1. When it is done importing you should see this popup
-
-    ![Touch Portal Plugin Success Import](images/touch_portal_import_plugin_notification.png)
-1. Now restart the Touch Portal app
-   1. _**NOTE**_: Make sure you fully close Touch Portal using System Tray icon to exit
-
-1. After Touch Portal is back open click on an empty button and if you scroll down in the "Add Actions" list, you should see:
+3. After Touch Portal is back open click on an empty button and if you scroll down in the "Add Actions" list, you should see:
    
-    ![Open Hardware Monitor Info Events](images/open_hardware_monitor_events.png)
+  ![Open Hardware Monitor Info Events](images/open_hardware_monitor_events.png)
 
-    More on those later
-  
+1. Now you can move onto the Sample Page or start creating your own buttons to use this data.
+
+### Updating
+
+The Install package has a built-in update executable to run when updates are released of TP Open Hardware Monitor Plugin.
+1. If you didn't modify the default install you should see this in your Start Menu Program List
+
+    ![TP OpenHardwareMonitor Plugin Program Folder](images/StartMenu_Updater.png)
+
+  1. If you do not see that, navigate to the location you installed the plugin to, and locate Updater.exe
+1. Click "Check for Update" or execute Updater.exe depending on the steps above, and it will open this window
+
+    ![TP OpenHardwareMonitor Updater](images/TP_OHM_Updater.png)
+    
+1. Click  "Check for Updates" button or "Close" (obviously if you choose Close it will not update)
+1. IF there are no updates available it will popup a window telling you so, and you can stop here. Click "Ok" and it will close the updater.
+1. IF there _**IS*_ an update you should see something like this:
+
+  ![TP OpenHardwareMonitor Update Found](images/TP_OHM_UpdateFound.png)
+
+1. Click "Yes" button to download new version 
+1. It is going to open a web Browser (whichever is your default) to download the new installer
+  1. in Chrome you may see this, just click the arrow and select "Keep"
+
+    ![TP OpenHardwareMonitor Update Download Warning](images/TP_OHM_Updater_Warning.png)
+
+1. When the download is finished, run the new installer.
+1. Windows may popup a window like this, go ahead and click 'More Info', and then click 'Run anyway'
+
+  ![Windows Protection 1](images/Windows_Protection_MoreInfo.png) -> ![Windows Protection 2](images/Windows_Protection-RunAnyway.png)
+
+1. Since you are updating, it will ask you to uninstall the previous version, click "Yes"
+
+  ![TP OpenHardwareMonitor Uninstall](images/TP_OHM_Uninstall.png)
+
+1. On the Are you sure prompt, click "Yes"
+1. If Windows UAC pops up - click 'Ok'
+1. For some reason if tp_ohm.exe is running, this uninstaller will not kill it, so go ahead and close Touch Portal, which will in turn cause the socket to disconnect, and the program will shut down. Then on the warning about closing previous application click "OK".
+
+2. When it finishes uninstalling you shoudl see a Success Message
+
+  ![TP OpenHardwareMonitor Uninstall Success](images/TP_OHM_UninstallComplete.png)
+
+1. Now continue with the install like in the above install instructions.  When it is complete start Touch Portal back up.
+   
 ## Sample Page
 
 I have created a sample page that can be imported directly into Touch Portal and consume all 4 possible values.
