@@ -113,7 +113,7 @@ The Install package has a built-in update executable to run when updates are rel
 
 **Step 9** Windows may popup a window like this, go ahead and click 'More Info', and then click 'Run anyway'
 
-  ![Windows Protection 1](images/Windows_Protection_MoreInfo.png) -> ![Windows Protection 2](images/Windows_Protection-RunAnyway.png)
+  ![Windows Protection 1](images/Windows_Protection_MoreInfo.png) ![Windows Protection 2](images/Windows_Protection-RunAnyway.png)
   
 **Step 10** Since you are updating, it will ask you to uninstall the previous version, click "Yes"
 
