@@ -209,10 +209,10 @@ If you do not see those messages - visit the #tp_ohm channel on the Touch Portal
 - [StrawberryPerl](http://strawberryperl.com/) - Coding Language
 - [PAR::Packaging](https://metacpan.org/pod/pp) - EXE Packaging Utility
 - [Win32::OLE](https://metacpan.org/pod/Win32::OLE) - Used to access the WMI information
-
+- [ActualInstaller(free)](https://www.actualinstaller.com/?vid=7.6) - Used to package program into installer and support Updating
 ## Versioning
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags).
+We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/spdermn02/tpohm_plugin/tags).
 
 ## Authors
 
