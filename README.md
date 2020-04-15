@@ -205,7 +205,7 @@ if you see something like this
 [ERROR] Unable to connect to WMI...
 ```
 
-Your user may not have access to read from WMI - please follow [this link](https://docs.bmc.com/docs/display/public/btco100/Setting+WMI+user+access+permissions+using+the+WMI+Control+Panel), but for OpenHardwareMonitor folder instead of CIMV2 to set your user up to access WMI
+Verify you followed the Prequisite section and installed Open Hardware Monitor, otherwise your user may not have access to read from WMI - please follow [this link](https://docs.bmc.com/docs/display/public/btco100/Setting+WMI+user+access+permissions+using+the+WMI+Control+Panel), but for OpenHardwareMonitor folder instead of CIMV2 to set your user up to access WMI
 
 If you do not see those messages - visit the #tp_ohm channel on the Touch Portal Discord and we can troubleshoot it when I'm available
 
