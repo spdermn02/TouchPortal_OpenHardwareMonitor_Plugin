@@ -2,6 +2,25 @@
 
 TouchPortal Plugin to Utilize Statistics from Open Hardware Monitor - for Windows
 
+  - [Current Sensors and Values Available](#current-sensors-and-values-available)
+      - [CPU](#cpu)
+      - [RAM](#ram)
+  - [Sample Page](#sample-page)
+  - [Events](#events)
+    - [CPU Total Status](#cpu-total-status)
+    - [Memory Status](#memory-status)
+  - [Getting Started](#getting-started)
+    - [Prerequisites](#prerequisites)
+    - [Installing](#installing)
+    - [Updating](#updating)
+  - [Troubleshooting](#troubleshooting)
+  - [Notes](#notes)
+  - [Built With](#built-with)
+  - [Versioning](#versioning)
+  - [Authors](#authors)
+  - [License](#license)
+  - [Acknowledgments](#acknowledgments)
+
 ## Current Sensors and Values Available
 
 These are the current sensors and values available via this plugin. There are many more to consider, but this was the first go at it.  This information will be transmitted back to Touch Portal every 2 seconds.  If this becomes a problem I'll probably extract this out into a configuration file so it can be controlled by you.
@@ -29,6 +48,35 @@ These are the current sensors and values available via this plugin. There are ma
       * `Low` is when  &lt; 40% of Memory is used
       * `Medium` is when  &lt; 85% of Memory is used
       * `High` is when &gt;= 85% of Memory is used
+
+## Sample Page
+
+I have created a sample page that can be imported directly into Touch Portal and consume all 4 possible values.
+Download and import this page: [TP OHM Page](resources/OHM%20Page%20Example.tpz)
+
+![TP OHM Screenshot](images/tp_ohm_screenshot.png)
+
+Here is a gif of it in action on my phone:
+
+![TP OHM Example on iPhone XSMax](images/tp_ohm_page_on_phone.gif)
+
+## Events
+
+### CPU Total Status
+This event is triggered off the state id `tpohm_cpu_total_load_status`
+
+Example:
+
+![TP OHM CPU Total Status](images/tp_ohm_cpu_total_status_event.png)
+
+
+### Memory Status
+This event is triggered off the state id `tpohm_memory_load_status`
+
+Example:
+
+![TP OHM Memory Status](images/tp_ohm_memory_status_event.png)
+
 
 ## Getting Started
 
@@ -131,35 +179,6 @@ The Install package has a built-in update executable to run when updates are rel
   
 **Step 15** Now continue with the install like in the above initial install instructions.  When it is complete start Touch Portal back up.
    
-## Sample Page
-
-I have created a sample page that can be imported directly into Touch Portal and consume all 4 possible values.
-Download and import this page: [TP OHM Page](resources/OHM%20Page%20Example.tpz)
-
-![TP OHM Screenshot](images/tp_ohm_screenshot.png)
-
-Here is a gif of it in action on my phone:
-
-![TP OHM Example on iPhone XSMax](images/tp_ohm_page_on_phone.gif)
-
-## Events
-
-### CPU Total Status
-This event is triggered off the state id `tpohm_cpu_total_load_status`
-
-Example:
-
-![TP OHM CPU Total Status](images/tp_ohm_cpu_total_status_event.png)
-
-
-### Memory Status
-This event is triggered off the state id `tpohm_memory_load_status`
-
-Example:
-
-![TP OHM Memory Status](images/tp_ohm_memory_status_event.png)
-
-
 ## Troubleshooting
 
 Touch Portal will log that it attempted to load the plugin in it's log file
