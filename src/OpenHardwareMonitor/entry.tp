@@ -1,0 +1,424 @@
+{
+  "sdk": 1,
+  "version": 1,
+  "name": "Touch Portal Open Hardware Monitor Interface",
+  "id": "TPOpenHardwareMonitor",
+  "plugin_start_cmd": "\"%TP_PLUGIN_FOLDER%OpenHardwareMonitor\\tp_ohm.exe\"",
+  "configuration": {
+    "colorDark": "#225834",
+    "colorLight": "#45b168"
+  },
+  "categories": [
+    {
+      "id": "OpenHardwareMonitor",
+      "name": "Open Hardware Monitor Info",
+      "imagepath": "%TP_PLUGIN_FOLDER%OpenHardwareMonitor\\tp_ohm.png",
+      "actions": [
+      ],
+      "states": [
+        {
+          "id": "tpohm_connected",
+          "type": "choice",
+          "desc": "TP OHM Exe Connected",
+          "default": "No",
+          "valueChoices": ["No","Yes"]
+        },
+        {
+          "id": "tpohm_cpu_total_load_val",
+          "type": "choice",
+          "desc": "TP OHM CPU Total Load Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_cpu_total_load_status",
+          "type": "choice",
+          "desc": "TP OHM CPU Total Load Status",
+          "default": "Low",
+          "valueChoices": ["Low", "Medium", "High"]
+        },
+        {
+          "id": "tpohm_memory_load_val",
+          "type": "choice",
+          "desc": "TP OHM Memory Load Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_memory_load_status",
+          "type": "choice",
+          "desc": "TP OHM Memory Load Status",
+          "default": "Low",
+          "valueChoices": ["Low", "Medium", "High"]
+        },
+        {
+          "id": "tpohm_gpu_core_load_val",
+          "type": "choice",
+          "desc": "TP OHM GPU Core Load Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_gpu_memory_load_val",
+          "type": "choice",
+          "desc": "TP OHM GPU Memory Load Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_gpu_core_clock_val",
+          "type": "choice",
+          "desc": "TP OHM GPU Core Clock Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_gpu_memory_clock_val",
+          "type": "choice",
+          "desc": "TP OHM GPU Memory Clock Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_gpu_shader_clock_val",
+          "type": "choice",
+          "desc": "TP OHM GPU Shader Clock Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_cpu_package_temp_val",
+          "type": "choice",
+          "desc": "TP OHM CPU Package Temp Value - Celsius",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_cpu_package_temp_status",
+          "type": "choice",
+          "desc": "TP OHM CPU Package Temperature Status",
+          "default": "Low",
+          "valueChoices": ["Low", "Medium", "High"]
+        },
+        {
+          "id": "tpohm_gpu_core_temp_val",
+          "type": "choice",
+          "desc": "TP OHM GPU Core Temp Value - Celsius",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_gpu_core_temp_status",
+          "type": "choice",
+          "desc": "TP OHM GPU Core Temperature Status",
+          "default": "Low",
+          "valueChoices": ["Low", "Medium", "High"]
+        },
+        {
+          "id": "tpohm_cpu_package_power_val",
+          "type": "choice",
+          "desc": "TP OHM CPU Package Power Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_gpu_power_val",
+          "type": "choice",
+          "desc": "TP OHM GPU Power Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_used_memory_val",
+          "type": "choice",
+          "desc": "TP OHM Used Memory Value - GB",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_avail_memory_val",
+          "type": "choice",
+          "desc": "TP OHM Available Memory Value - GB",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_gpu_free_memory_val",
+          "type": "choice",
+          "desc": "TP OHM GPU Free Memory Value - MB",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_gpu_used_memory_val",
+          "type": "choice",
+          "desc": "TP OHM GPU Used Memory Value - MB",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_cpu_core_1_load_val",
+          "type": "choice",
+          "desc": "TP OHM CPU Core #1 Load Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_cpu_core_2_load_val",
+          "type": "choice",
+          "desc": "TP OHM CPU Core #2 Load Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_cpu_core_3_load_val",
+          "type": "choice",
+          "desc": "TP OHM CPU Core #3 Load Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_cpu_core_4_load_val",
+          "type": "choice",
+          "desc": "TP OHM CPU Core #4 Load Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_cpu_core_5_load_val",
+          "type": "choice",
+          "desc": "TP OHM CPU Core #5 Load Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_cpu_core_6_load_val",
+          "type": "choice",
+          "desc": "TP OHM CPU Core #6 Load Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_cpu_core_7_load_val",
+          "type": "choice",
+          "desc": "TP OHM CPU Core #7 Load Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_cpu_core_8_load_val",
+          "type": "choice",
+          "desc": "TP OHM CPU Core #8 Load Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_cpu_core_9_load_val",
+          "type": "choice",
+          "desc": "TP OHM CPU Core #9 Load Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_cpu_core_10_load_val",
+          "type": "choice",
+          "desc": "TP OHM CPU Core #10 Load Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_cpu_core_11_load_val",
+          "type": "choice",
+          "desc": "TP OHM CPU Core #11 Load Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_cpu_core_12_load_val",
+          "type": "choice",
+          "desc": "TP OHM CPU Core #12 Load Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_cpu_core_13_load_val",
+          "type": "choice",
+          "desc": "TP OHM CPU Core #13 Load Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_cpu_core_14_load_val",
+          "type": "choice",
+          "desc": "TP OHM CPU Core #14 Load Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_cpu_core_15_load_val",
+          "type": "choice",
+          "desc": "TP OHM CPU Core #15 Load Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_cpu_core_16_load_val",
+          "type": "choice",
+          "desc": "TP OHM CPU Core #16 Load Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_cpu_core_1_clock_val",
+          "type": "choice",
+          "desc": "TP OHM CPU Core #1 Clock Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_cpu_core_2_clock_val",
+          "type": "choice",
+          "desc": "TP OHM CPU Core #2 Clock Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_cpu_core_3_clock_val",
+          "type": "choice",
+          "desc": "TP OHM CPU Core #3 Clock Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_cpu_core_4_clock_val",
+          "type": "choice",
+          "desc": "TP OHM CPU Core #4 Clock Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_cpu_core_5_clock_val",
+          "type": "choice",
+          "desc": "TP OHM CPU Core #5 Clock Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_cpu_core_6_clock_val",
+          "type": "choice",
+          "desc": "TP OHM CPU Core #6 Clock Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_cpu_core_7_clock_val",
+          "type": "choice",
+          "desc": "TP OHM CPU Core #7 Clock Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_cpu_core_8_clock_val",
+          "type": "choice",
+          "desc": "TP OHM CPU Core #8 Clock Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_cpu_core_9_clock_val",
+          "type": "choice",
+          "desc": "TP OHM CPU Core #9 Clock Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_cpu_core_10_clock_val",
+          "type": "choice",
+          "desc": "TP OHM CPU Core #10 Clock Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_cpu_core_11_clock_val",
+          "type": "choice",
+          "desc": "TP OHM CPU Core #11 Clock Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_cpu_core_12_clock_val",
+          "type": "choice",
+          "desc": "TP OHM CPU Core #12 Clock Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_cpu_core_13_clock_val",
+          "type": "choice",
+          "desc": "TP OHM CPU Core #13 Clock Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_cpu_core_14_clock_val",
+          "type": "choice",
+          "desc": "TP OHM CPU Core #14 Clock Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_cpu_core_15_clock_val",
+          "type": "choice",
+          "desc": "TP OHM CPU Core #15 Clock Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_cpu_core_16_clock_val",
+          "type": "choice",
+          "desc": "TP OHM CPU Core #16 Clock Value",
+          "default": "0",
+          "valueChoices": ["0"]
+        }
+      ],
+      "events": [
+        {
+          "id": "tpohm_cpu_total_event",
+          "name": "CPU Total Status",
+          "format": "When the CPU Status is $val",
+          "type": "communicate",
+          "valueType": "choice",
+          "valueChoices": ["Low", "Medium", "High"],
+          "valueStateId": "tpohm_cpu_total_load_status"
+        },
+        {
+          "id": "tpohm_memory_load_event",
+          "name": "Memory Status",
+          "format": "When the Memory Status is $val",
+          "type": "communicate",
+          "valueType": "choice",
+          "valueChoices": ["Low", "Medium", "High"],
+          "valueStateId": "tpohm_memory_load_status"
+        },
+        {
+          "id": "tpohm_cpu_temperature_event",
+          "name": "CPU Temperature Status",
+          "format": "When the CPU Package Temperature Status is $val",
+          "type": "communicate",
+          "valueType": "choice",
+          "valueChoices": ["Low", "Medium", "High"],
+          "valueStateId": "tpohm_cpu_package_temp_val"
+        },
+        {
+          "id": "tpohm_gpu_temperature_event",
+          "name": "GPU Temperature Status",
+          "format": "When the GPU Core Temperature Status is $val",
+          "type": "communicate",
+          "valueType": "choice",
+          "valueChoices": ["Low", "Medium", "High"],
+          "valueStateId": "tpohm_gpu_core_temp_status"
+        }
+      ]
+    }
+  ]
+}
