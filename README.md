@@ -4,16 +4,20 @@ TouchPortal Plugin to Utilize Statistics from Open Hardware Monitor - for Window
 
 - [Touch Portal Plugin for Open Hardware Monitor](#touch-portal-plugin-for-open-hardware-monitor)
   - [Current Sensors and Values Available](#current-sensors-and-values-available)
+        - [Data Types](#data-types)
       - [CPU](#cpu)
+      - [GPU +NEW+](#gpu-new)
       - [RAM](#ram)
   - [Sample Page](#sample-page)
   - [Events](#events)
     - [CPU Total Status](#cpu-total-status)
     - [Memory Status](#memory-status)
+    - [CPU Package Temperature Status ++NEW++](#cpu-package-temperature-status-new)
+    - [GPU Core Temperature Status ++NEW++](#gpu-core-temperature-status-new)
   - [Getting Started](#getting-started)
-    - [Prerequisites](#prerequisites)
-    - [Installing](#installing)
-    - [Updating](#updating)
+  - [Prerequisites](#prerequisites)
+  - [Installing](#installing)
+  - [Updating](#updating)
   - [Troubleshooting](#troubleshooting)
   - [Notes](#notes)
   - [Built With](#built-with)
@@ -24,19 +28,71 @@ TouchPortal Plugin to Utilize Statistics from Open Hardware Monitor - for Window
 
 ## Current Sensors and Values Available
 
-These are the current sensors and values available via this plugin. There are many more to consider, but this was the first go at it. This information will be transmitted back to Touch Portal every 2 seconds. If this becomes a problem I'll probably extract this out into a configuration file so it can be controlled by you.
+These are the current sensors and values available via this plugin. This information will be transmitted back to Touch Portal every 1 seconds. If this becomes a problem I'll probably extract this out into a configuration file so it can be controlled by you.
+
+##### Data Types
+
+- Percentage - values 0.0 - 100.0
+- Treshold - Coded by sensor and documented below to return "grouped" status data
+- SmallData - values are in MB
+- Data - values are in GB
+- Clock - values are in MHz
+- Temperature - values are in °C
+- Power - values are in W (watts)
+
+_Note: All Decimals are to the tenths place. I chose not to include the symbol and only the numbers so you can choose how they display_
 
 #### CPU
 
-- **Total CPU Load** - Will output the raw current percentage (to 1 decimal point) of CPU Load
+- **Total CPU Load** - Percentage
   - state id is `tpohm_cpu_total_load_val`
-    - Values are: 0.0 - 100.0
-- **CPU Status** (based on Total Load) - called a Threshold in the code
+- **CPU Status** (based on Total Load) - Threshold
   - state id is `tpohm_cpu_total_load_status`
     - Final Values are: `Low, Medium, High`
       - `Low` is when &lt; 45% of CPU is used
       - `Medium` is when &lt; 85% of CPU is used
       - `High` is when &gt;= 85% of CPU is used
+- **CPU Core Load Values 1-16 Cores** - Percentage **+NEW+**
+  - state ids are `tpohm_cpu_core_1_load_val` - `tpohm_cpu_core_16_load_val`
+- **CPU Core Clock Values 1-16 Cores** - Clock **+NEW+**
+  - state ids are `tpohm_cpu_core_1_clock_val` - `tpohm_cpu_core_1_clock_val`
+- **CPU Package Temperature** - Temperature **+NEW+**
+  - state id is `tpohm_cpu_package_temp_val`
+- **CPU Package Temperature Status** - Threshold **+NEW+**
+  - state id is `tpohm_cpu_package_temp_status`
+    - Final Values are: `Low, Medium, High`
+      - `Low` is when &lt; 45°C
+      - `Medium` is when &lt; 65°C
+      - `High` is when &gt;= 65°C
+- **CPU Package Power** - Power **+NEW+**
+  - state id is `tpohm_cpu_package_power_val`
+
+#### GPU +NEW+
+
+- **Total GPU Load** - Percentage
+  - state id is `tpohm_gpu_core_load_val`
+- **Total GPU Memory Load** - Percentage
+  - state id is `tpohm_gpu_memory_load_val`
+- **GPU Core Clock** - Clock
+  - state id is `tpohm_gpu_core_clock_val`
+- **GPU Memory Clock** - Clock
+  - state id is `tpohm_gpu_memory_clock_val`
+- **GPU Shader Clock** - Clock
+  - state id is `tpohm_gpu_shader_clock_val`
+- **GPU Core Temperature** - Temperature
+  - state id is `tpohm_gpu_core_temp_val`
+- **GPU Core Temperature Status** - Threshold
+  - state id is `tpohm_gpu_core_temp_status`
+    - Final Values are: `Low, Medium, High`
+      - `Low` is when &lt; 40°C
+      - `Medium` is when &lt; 60°C
+      - `High` is when &gt;= 60°C
+- **GPU Power** - Power
+  - state id is `tpohm_gpu_power_val`
+- **GPU Memory Free** - SmallData
+  - state id is `tpohm_gpu_free_memory_val`
+- **GPU Memory Used** - SmallData
+  - state id is `tpohm_gpu_used_memory_val`
 
 #### RAM
 
@@ -49,15 +105,19 @@ These are the current sensors and values available via this plugin. There are ma
       - `Low` is when &lt; 40% of Memory is used
       - `Medium` is when &lt; 85% of Memory is used
       - `High` is when &gt;= 85% of Memory is used
+- **Used Memory** - Data **+NEW+**
+  - state id is `tpohm_used_memory_val`
+- **Available Memory** - Data **+NEW+**
+  - state id is `tpohm_avail_memory_val`
 
 ## Sample Page
 
-I have created a sample page that can be imported directly into Touch Portal and consume all 4 possible values.
+I have created a sample page that can be imported directly into Touch Portal and consume all possible values state values (feel free to edit how you see fit or just use this as a guide).
 Download and import this page: [TP OHM Page](resources/OHM%20Page%20Example.tpz)
 
 ![TP OHM Screenshot](images/tp_ohm_screenshot.png)
 
-Here is a gif of it in action on my phone:
+Here is a gif of it in action on my phone (*note:* slightly different than existing page):
 
 ![TP OHM Example on iPhone XSMax](images/tp_ohm_page_on_phone.gif)
 
@@ -79,13 +139,29 @@ Example:
 
 ![TP OHM Memory Status](images/tp_ohm_memory_status_event.png)
 
+### CPU Package Temperature Status ++NEW++
+
+This event is triggered off the state id `tpohm_cpu_package_temp_status`
+
+Example:
+
+![TP OHM CPU Temperature Status](images/tp_ohm_cpu_temperature_status_event.png)
+
+### GPU Core Temperature Status ++NEW++
+
+This event is triggered off the state id `tpohm_gpu_core_temp_status`
+
+Example:
+
+![TP OHM GPU Temperature Status](images/tp_ohm_gpu_temperature_status_event.png)
+
 ## Getting Started
 
 If you use [Touch Portal](https://touch-portal.com) and are interested in having a "dashboard" display of some base computer statistics, these instructions will help get that setup for you.
 
 If you don't use Touch Portal - how dare you, you should!
 
-### Prerequisites
+## Prerequisites
 
 Download and run Open Hardware Monitor - you can find it here: https://openhardwaremonitor.org/
 Current tested version is 0.9.2
@@ -96,88 +172,53 @@ After download, run the OpenHardwareMonitor.exe file, for this plugin to run cor
 
 ![OHM Options](images/ohm_options.png)
 
-### Installing
+## Installing
 
-_**NOTE**_: Default install path is %APPDATA%\TouchPortal\plugins\OpenHardwareMonitor and this install contains the entry.tp file that Touch Portal requires to load the plugin, IF you change your directory to outside the standard Touch Portal plugins folder. this will not work properly.
+_**NOTE**_: Default install path is dictated by Touch Portal, for newer users it is in %APPDATA%\TouchPortal\plugins, for older users it is in C:\Users\(window user name)\Documents\TouchPortal\plugins\ (or wherever your documents folder is)
 
-**Step 1** Download the installer [TP_OHM_Setup.exe](installer/TP_OHM_Setup.exe) file from the github repo. This will install everything needed for TouchPortal to recognize the plugin
+**Step 1** Make sure you have Open Hardware Monitor installed - go to Prequisites if you did not install it
 
-**Step 2** Execute the installer program
+**Step 2** Download the Touch Portal Plugin [TP_OHM_Plugin.tpp](installer/TP_OHM_Plugin.tpp) file from the github repo installer folder. This contains everything needed for TouchPortal and the Plugin
 
-**2.1** If you need to change directories click the "Options" button underneath "Install" (you can also disable shortcuts here if you want)
+**Step 3** Open Touch Portal GUI, go to the Wrench, and chose "Import plug-in"
 
-![Change Directory Options Button](images/TP_OHM_Setup_ChangeDir.png)
+![TP Import Plug-In](images/tp_import_plugin.png)
 
-**Step 3** Click the ![INSTALL Button](images/TP_OHM_Setup_InstallButton.png)
+**Step 4** Navigate to where youd downloaded the .tpp file from Step 1, select it and click "Open"
 
-**3.1** It should ask permission to install using UAC (if youhave that enabled) - click "Yes" button
-if you don't see it immediately look on your task bar for this icon: ![UAC Indicator](images/UACIndicator.png)
+**Step 5** You then should see this, click "Okay"
 
-**3.2** When it is complete you should see this, and click "Finish":
+![TP Import Plug-In Success](images/tp_import_plugin-success.png)
 
-![Installation Completed](images/TP_OHM_Setup_InstallCompleted.png)
+**Step 6** Now restart the Touch Portal app
 
-**Step 4** Now restart the Touch Portal app
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; _**NOTE**_: Make sure you fully close Touch Portal using System Tray icon to exit
 
-**4.1** _**NOTE**_: Make sure you fully close Touch Portal using System Tray icon to exit
+**Step 7** After Touch Portal is back open and this is your first time installing TP Open Hardware Monitor you will be presented with a "trust" screen - code here is all open source - if you trust the plugin, select "Trust Always" or else everytime you open the app it will ask you:
 
-**Step 5** After Touch Portal is back open click on an empty button and if you scroll down in the "Add Actions" list, you should see:
+![TP Plug-In Trust](images/tp_plugin_trust.png)
+
+**Step 8** Now that we are trusted, click on an empty button and if you scroll down in the "Add Actions" list, you should see:
 
 ![Open Hardware Monitor Info Events](images/open_hardware_monitor_events.png)
 
-**Step 6** Now you can move onto the Sample Page or start creating your own buttons to use this data.
+**Step 8** Now you can move onto the Sample Page or start creating your own buttons to use this data.
 
-### Updating
+## Updating
 
-The Install package has a built-in update executable to run when updates are released of TP Open Hardware Monitor Plugin.
+When an update is put out, please follow these instructions to install
 
-**Step 1** If you didn't modify the default install you should see this in your Start Menu Program List
+**Step 1** Open Windows Task Manager
 
-![TP OpenHardwareMonitor Plugin Program Folder](images/StartMenu_Updater.png)
+**Step 2** Locate tp_ohm.exe running (you may see 2 listed but only 1 is actually running) and end the task, kill the one that actually is consuming CPU the one with the camel icon in the picture)
 
-**1.1** If you do not see that, navigate to the location you installed the plugin to, and locate Updater.exe
+![TP OHM Exe Task Manager](images/tp_ohmexe_task_manager.png)
 
-**Step 2** Click "Check for Update" or execute Updater.exe depending on the steps above, and it will open this window
+**NOTE**: If you don't see it running under Java like above, scroll down in your task manager to find it by itself
 
-![TP OpenHardwareMonitor Updater](images/TP_OHM_Updater.png)
+**Step 3** Download the newest .tpp from the install directory
 
-**Step 3** Click "Check for Updates" button or "Close" (obviously if you choose Close it will not update)
-
-**Step 4** IF there are no updates available it will popup a window telling you so, and you can stop here. Click "Ok" and it will close the updater.
-
-**Step 5** IF there _**IS**_ an update you should see something like this:
-
-![TP OpenHardwareMonitor Update Found](images/TP_OHM_UpdateFound.png)
-
-**Step 6** Click "Yes" button to download new version
-
-**Step 7** It is going to open a web Browser (whichever is your default) to download the new installer
-
-**7.1** in Chrome you may see this, just click the arrow and select "Keep"
-
-![TP OpenHardwareMonitor Update Download Warning](images/TP_OHM_Updater_Warning.png)
-
-**Step 8** When the download is finished, run the new installer.
-
-**Step 9** Windows may popup a window like this, go ahead and click 'More Info', and then click 'Run anyway'
-
-![Windows Protection 1](images/Windows_Protection_MoreInfo.png) ![Windows Protection 2](images/Windows_Protection-RunAnyway.png)
-
-**Step 10** Since you are updating, it will ask you to uninstall the previous version, click "Yes"
-
-![TP OpenHardwareMonitor Uninstall](images/TP_OHM_Uninstall.png)
-
-**Step 11** On the Are you sure prompt, click "Yes"
-
-**Step 12** If Windows UAC pops up - click 'Ok'
-
-**Step 13** For some reason if tp_ohm.exe is running, this uninstaller will not kill it, so go ahead and close Touch Portal, which will in turn cause the socket to disconnect, and the program will shut down. Then on the warning about closing previous application click "OK".
-
-**Step 14** When it finishes uninstalling you should see a Success Message
-
-![TP OpenHardwareMonitor Uninstall Success](images/TP_OHM_UninstallComplete.png)
-
-**Step 15** Now continue with the install like in the above initial install instructions. When it is complete start Touch Portal back up.
+**Step 4** to to Step 3 of the install guide and load the plugin
 
 ## Troubleshooting
 
@@ -199,15 +240,21 @@ and a little lower you should see something like this:
 ```
 
 There is also a logfile under the OpenHardwareMonitor plugin folder, %APPDATA%\TouchPortal\plugins\OpenHardwareMonitor\tpohm.log
-if you see something like this
 
 ```
-[ERROR] Unable to connect to WMI...
+[START] tp_ohm is starting up, and about to connect
+[FATAL] Cannot create socket connection : ##
+```
+- Verify your Touch Portal is actually running
+
+```
+[START] tp_ohm is starting up, and about to connect
+[FATAL] Unable to connect to WMI...
 ```
 
-Verify you followed the Prequisite section and installed Open Hardware Monitor, otherwise your user may not have access to read from WMI - please follow [this link](https://docs.bmc.com/docs/display/public/btco100/Setting+WMI+user+access+permissions+using+the+WMI+Control+Panel), but for OpenHardwareMonitor folder instead of CIMV2 to set your user up to access WMI
+- Verify you followed the Prequisite section and installed Open Hardware Monitor, otherwise your user may not have access to read from WMI - please follow [this link](https://docs.bmc.com/docs/display/public/btco100/Setting+WMI+user+access+permissions+using+the+WMI+Control+Panel), but for OpenHardwareMonitor folder instead of CIMV2 to set your user up to access WMI
 
-If you do not see those messages - visit the #tp_ohm channel on the Touch Portal Discord and we can troubleshoot it when I'm available
+If you do not see those messages, make sure you followed the Prerequisites section, otherwise visit the #tp-ohm channel on the Touch Portal Discord and we can troubleshoot it when I'm available
 
 _INFO: more notes will be added here as we have to troubleshoot_
 
