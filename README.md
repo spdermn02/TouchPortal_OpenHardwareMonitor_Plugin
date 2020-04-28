@@ -10,13 +10,13 @@ TouchPortal Plugin to Utilize Statistics from Open Hardware Monitor - for Window
       - [RAM](#ram)
   - [Sample Page](#sample-page)
   - [Events](#events)
-    - [CPU Total Load Status ++renamed 1.0.1++](#cpu-total-load-status-renamed-101)
-    - [Memory Load Status ++renamed 1.0.1++](#memory-load-status-renamed-101)
-    - [CPU Package Temperature Status ++NEW -renamed 1.0.1++](#cpu-package-temperature-status-new--renamed-101)
-    - [GPU Core Load Status ++NEW 1.0.1++](#gpu-core-load-status-new-101)
-    - [GPU Memory Load Status ++NEW 1.0.1++](#gpu-memory-load-status-new-101)
-    - [GPU Core Temperature Status ++NEW renamed 1.0.1++](#gpu-core-temperature-status-new-renamed-101)
-    - [GPU Memory Temperature Status ++NEW 1.0.1++](#gpu-memory-temperature-status-new-101)
+    - [CPU Total Load Status ++renamed v2++](#cpu-total-load-status-renamed-v2)
+    - [Memory Load Status ++renamed v2++](#memory-load-status-renamed-v2)
+    - [CPU Package Temperature Status ++NEW -renamed v2++](#cpu-package-temperature-status-new--renamed-v2)
+    - [GPU Core Load Status ++NEW v2++](#gpu-core-load-status-new-v2)
+    - [GPU Memory Load Status ++NEW v2++](#gpu-memory-load-status-new-v2)
+    - [GPU Core Temperature Status ++NEW renamed v2++](#gpu-core-temperature-status-new-renamed-v2)
+    - [GPU Memory Temperature Status ++NEW v2++](#gpu-memory-temperature-status-new-v2)
   - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installing](#installing)
@@ -76,7 +76,7 @@ _Note: All Decimals are to the tenths place. I chose not to include the symbol a
 
 - **Total GPU Load** - Percentage
   - state id is `tpohm_gpu_core_load_val`
-- **GPU Status** (based on Total GPU Load) - Threshold - **+NEW 1.0.1+**
+- **GPU Status** (based on Total GPU Load) - Threshold - **+NEW 2+**
   - state id is `tpohm_gpu_core_load_status`
     - Final Values are: `Low, Medium, High`
       - `Low` is when &lt; 45% of GPU is used
@@ -84,7 +84,7 @@ _Note: All Decimals are to the tenths place. I chose not to include the symbol a
       - `High` is when &gt;= 85% of GPU is used
 - **Total GPU Memory Load** - Percentage
   - state id is `tpohm_gpu_memory_load_val`
-- **GPU Memory Status** (based on Total GPU Memory Load) - Threshold - **+NEW 1.0.1+**
+- **GPU Memory Status** (based on Total GPU Memory Load) - Threshold - **+NEW 2+**
   - state id is `tpohm_gpu_memory_load_status`
     - Final Values are: `Low, Medium, High`
       - `Low` is when &lt; 40% of GPU Memory is used
@@ -110,9 +110,9 @@ _Note: All Decimals are to the tenths place. I chose not to include the symbol a
   - state id is `tpohm_gpu_free_memory_val`
 - **GPU Memory Used** - SmallData
   - state id is `tpohm_gpu_used_memory_val`
-- **GPU Memory Temperature** - Temperature - Maybe AMD Only - **+NEW 1.0.1+**
+- **GPU Memory Temperature** - Temperature - Maybe AMD Only - **+NEW 2+**
   - state id is `tpohm_gpu_memory_temp_val`
-- **GPU Memory Temperature Status** - Threshold - Maybe AMD Only - **+New 1.0.1+**
+- **GPU Memory Temperature Status** - Threshold - Maybe AMD Only - **+New 2+**
   - state id is `tpohm_gpu_memory_temp_status`
     - Final Values are: `Low, Medium, High`
       - `Low` is when &lt; 40°C
@@ -148,7 +148,7 @@ Here is a gif of it in action on my phone (*note:* slightly different than exist
 
 ## Events
 
-### CPU Total Load Status ++renamed 1.0.1++
+### CPU Total Load Status ++renamed v2++
 
 This event is triggered off the state id `tpohm_cpu_total_load_status`
 
@@ -156,7 +156,7 @@ Example:
 
 ![TP OHM CPU Total Status](images/tp_ohm_cpu_total_status_event.png)
 
-### Memory Load Status ++renamed 1.0.1++
+### Memory Load Status ++renamed v2++
 
 This event is triggered off the state id `tpohm_memory_load_status`
 
@@ -164,7 +164,7 @@ Example:
 
 ![TP OHM Memory Status](images/tp_ohm_memory_status_event.png)
 
-### CPU Package Temperature Status ++NEW -renamed 1.0.1++
+### CPU Package Temperature Status ++NEW -renamed v2++
 
 This event is triggered off the state id `tpohm_cpu_package_temp_status`
 
@@ -172,7 +172,7 @@ Example:
 
 ![TP OHM CPU Temperature Status](images/tp_ohm_cpu_temperature_status_event.png)
 
-### GPU Core Load Status ++NEW 1.0.1++
+### GPU Core Load Status ++NEW v2++
 
 This event is triggered off the state id `tpohm_gpu_core_load_status`
 
@@ -180,7 +180,7 @@ Example:
 
 ![TP OHM GPU Core Load Status](images/tp_ohm_gpu_core_load_status_event.png)
 
-### GPU Memory Load Status ++NEW 1.0.1++
+### GPU Memory Load Status ++NEW v2++
 
 This event is triggered off the state id `tpohm_gpu_memory_load_status`
 
@@ -188,7 +188,7 @@ Example:
 
 ![TP OHM GPU Memory Load Status](images/tp_ohm_gpu_memory_load_status_event.png)
 
-### GPU Core Temperature Status ++NEW renamed 1.0.1++
+### GPU Core Temperature Status ++NEW renamed v2++
 
 This event is triggered off the state id `tpohm_gpu_core_temp_status`
 
@@ -196,7 +196,7 @@ Example:
 
 ![TP OHM GPU Temperature Status](images/tp_ohm_gpu_temperature_status_event.png)
 
-### GPU Memory Temperature Status ++NEW 1.0.1++
+### GPU Memory Temperature Status ++NEW v2++
 
 This event is triggered off the state id `tpohm_gpu_memory_temp_status`
 
