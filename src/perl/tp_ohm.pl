@@ -12,10 +12,7 @@ use File::Basename qw(dirname);
 
 # Auto appends /n on the end of message, alternate to print "msg \n";
 use feature 'say';
-our $VERSION = '1.0.0';
-
-## Auto flush prints
-$| = 1;
+our $VERSION = '2';
 
 our $dir = dirname( abs_path($0) );
 
@@ -23,11 +20,13 @@ our $debugLog = undef;
 open $debugLog, '>', $dir . '\tpohm.log';
 
 select $debugLog;
+## Auto flush prints
+$| = 1;
 
 use constant {
     SEC_OF_DAY => 60 * 60 * 24,
 
-    ID   => 'TPOpenHardwareMonitor-test',
+    ID   => 'TPOpenHardwareMonitor',
     HOST => 'localhost',
 };
 
@@ -36,7 +35,8 @@ use constant wbemFlagReturnImmediately => 0x10;
 use constant wbemFlagForwardOnly       => 0x20;
 
 our ( $socket, $WMI );
-our $waitTime = 2;    #default wait 2 seconds per sensor read and update
+our $waitTime =
+  10;    #default wait 10 seconds per sensor read and update - 2.1 release issue
 our %sensor_config = load_sensor_config();
 our $time          = time;
 
@@ -46,7 +46,7 @@ exit 0;
 
 sub main {
 
-    logIt('START','tp_ohm is starting up, and about to connect');
+    logIt( 'START', 'tp_ohm is starting up, and about to connect' );
 
     $socket =
       new TouchPortal::Socket( { 'run_dir' => $dir, 'plugin_id' => ID } );
@@ -63,7 +63,7 @@ sub main {
     #sit here and wait for stuff
     while (1) {
         my $irc = $socket->state_update( 'tpohm_connected', 'Yes' );
-        logIt( 'INFO',
+        logIt( 'START',
             "Checking to see if we are connected, bytes sent to TP = $irc" );
 
         if ( !defined $irc || !$socket->{'socket'}->connected() ) {
@@ -86,7 +86,7 @@ sub main {
         my $irc = $socket->state_update( 'tpohm_connected', 'No' );
     }
 
-    logIt('SHUTDOWN','tp_ohm is shutting down');
+    logIt( 'SHUTDOWN', 'tp_ohm is shutting down' );
 
     return 1;
 }
@@ -117,7 +117,7 @@ sub get_hardware_data {
 
     foreach my $hardware ( in $hardwares ) {
         logIt(
-            'DEBUG',
+            'INFO',
             sprintf(
                 "Name: %s Type: %s",
                 $hardware->{Name}, $hardware->{HardwareType}
@@ -138,27 +138,31 @@ sub get_sensor_data {
         return 0;
     }
 
+    my @stateArray = ();
+
     foreach my $sensor ( in $sensors) {
         my $type   = $sensor->{SensorType};
         my $name   = $sensor->{Name};
         my $value  = $sensor->{Value};
         my $parent = $sensor->{Parent};
 
+        $name = _normalize_name_by_type( $type, $name );
+
         if (   defined $sensor_config{$type}
             && defined $sensor_config{$type}->{$name} )
         {
             logIt(
-                'DEBUG',
+                'INFO',
                 sprintf(
 "GOOD: Sensor configured to be handled - Parent: %s Name: %s SensorType: %s Value: %s",
                     $parent, $name, $type, $value
                 )
             );
-            process_sensor( $type, $name, $value );
+            process_sensor( $type, $name, $value, \@stateArray );
         }
         else {
             logIt(
-                'DEBUG',
+                'INFO',
                 sprintf(
 "Sensor Not configured to be handled - Parent: %s Name: %s SensorType: %s Value: %s",
                     $parent, $name, $type, $value
@@ -168,18 +172,22 @@ sub get_sensor_data {
         }
     }
 
+    my $rc = $socket->state_update_array( \@stateArray );
+
     return 1;
 }
 
 sub process_sensor {
-    my ( $type, $name, $value ) = @_;
+    my ( $type, $name, $value, $stateArray ) = @_;
 
     $sensor_info = $sensor_config{$type}->{$name};
 
     foreach my $id ( @{ $sensor_info->{ids} } ) {
         if ( $id->{type} eq "value" ) {
 
-            $socket->state_update( $id->{id}, sprintf( "%.1f", $value ) );
+            #$socket->state_update( $id->{id}, sprintf( "%.1f", $value ) );
+            push @$stateArray,
+              { id => $id->{id}, value => sprintf( "%.1f", $value ) };
         }
         elsif ( $id->{type} eq "threshold" ) {
             my $useValue = $id->{default};
@@ -189,10 +197,29 @@ sub process_sensor {
                     last;
                 }
             }
-            $socket->state_update( $id->{id}, $useValue );
+
+            #$socket->state_update( $id->{id}, $useValue );
+            push @$stateArray, { id => $id->{id}, value => $useValue };
         }
     }
 
+}
+
+sub _normalize_name_by_type {
+    my ( $type, $name ) = @_;
+    my $origName = $name;
+
+    #Handle AMD Package listed as Core #1 - #N by OHM - issue #4
+    if ( $type eq 'Temperature' ) {
+        if ( $name =~ /Core #[0-9]+ - #[0-9]+/ ) {
+            $name = 'CPU Package';
+        }
+    }
+    if ( $origName ne $name ) {
+        logIt( 'INFO', "Normaling name from $origName to $name" );
+    }
+
+    return $name;
 }
 
 sub _roll_log {
@@ -306,11 +333,32 @@ sub load_sensor_config {
                   [ { id => 'tpohm_cpu_core_16_load_val', type => 'value' }, ]
             },
             'GPU Core' => {
-                ids => [ { id => 'tpohm_gpu_core_load_val', type => 'value' }, ]
+                ids => [
+                    { id => 'tpohm_gpu_core_load_val', type => 'value' },
+                    {
+                        id         => 'tpohm_gpu_core_load_status',
+                        type       => 'threshold',
+                        default    => "Low",
+                        thresholds => [
+                            { threshold => 85, value => "High" },
+                            { threshold => 45, value => "Medium" }
+                        ]
+                    }
+                ]
             },
             'GPU Memory' => {
-                ids =>
-                  [ { id => 'tpohm_gpu_memory_load_val', type => 'value' }, ]
+                ids => [
+                    { id => 'tpohm_gpu_memory_load_val', type => 'value' },
+                    {
+                        id         => 'tpohm_gpu_memory_load_status',
+                        type       => 'threshold',
+                        default    => "Low",
+                        thresholds => [
+                            { threshold => 85, value => "High" },
+                            { threshold => 40, value => "Medium" }
+                        ]
+                    }
+                ]
             }
         },
         'Clock' => {
@@ -420,13 +468,36 @@ sub load_sensor_config {
                     },
                 ]
             },
+
+            #Maybe AMD Only
+            'GPU Memory' => {
+                'ids' => [
+                    { id => 'tpohm_gpu_memory_temp_val', type => 'value' },
+                    {
+                        id         => 'tpohm_gpu_memory_temp_status',
+                        type       => 'threshold',
+                        default    => "Low",
+                        thresholds => [
+                            { threshold => 60, value => "High" },
+                            { threshold => 40, value => "Medium" }
+                        ]
+                    },
+                ]
+            },
         },
         'Power' => {
             'CPU Package' => {
                 ids =>
                   [ { id => 'tpohm_cpu_package_power_val', type => 'value' } ]
             },
+
+            #NVidia
             'GPU Power' => {
+                ids => [ { id => 'tpohm_gpu_power_val', type => 'value' } ]
+            },
+
+            #AMD
+            'GPU Total' => {
                 ids => [ { id => 'tpohm_gpu_power_val', type => 'value' } ]
             }
         },

@@ -1,6 +1,6 @@
 {
   "sdk": 1,
-  "version": 1,
+  "version": 2,
   "name": "Touch Portal Open Hardware Monitor Interface",
   "id": "TPOpenHardwareMonitor",
   "plugin_start_cmd": "\"%TP_PLUGIN_FOLDER%OpenHardwareMonitor\\tp_ohm.exe\"",
@@ -59,11 +59,25 @@
           "valueChoices": ["0"]
         },
         {
+          "id": "tpohm_gpu_core_load_status",
+          "type": "choice",
+          "desc": "TP OHM GPU Core Load Status",
+          "default": "Low",
+          "valueChoices": ["Low", "Medium", "High"]
+        },
+        {
           "id": "tpohm_gpu_memory_load_val",
           "type": "choice",
           "desc": "TP OHM GPU Memory Load Value",
           "default": "0",
           "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_gpu_memory_load_status",
+          "type": "choice",
+          "desc": "TP OHM GPU Memory Load Status",
+          "default": "Low",
+          "valueChoices": ["Low", "Medium", "High"]
         },
         {
           "id": "tpohm_gpu_core_clock_val",
@@ -111,6 +125,20 @@
           "id": "tpohm_gpu_core_temp_status",
           "type": "choice",
           "desc": "TP OHM GPU Core Temperature Status",
+          "default": "Low",
+          "valueChoices": ["Low", "Medium", "High"]
+        },
+        {
+          "id": "tpohm_gpu_memory_temp_val",
+          "type": "choice",
+          "desc": "TP OHM GPU Memory Temp Value - Celsius",
+          "default": "0",
+          "valueChoices": ["0"]
+        },
+        {
+          "id": "tpohm_gpu_memory_temp_status",
+          "type": "choice",
+          "desc": "TP OHM GPU Memory Temperature Status",
           "default": "Low",
           "valueChoices": ["Low", "Medium", "High"]
         },
@@ -384,8 +412,8 @@
       "events": [
         {
           "id": "tpohm_cpu_total_event",
-          "name": "CPU Total Status",
-          "format": "When the CPU Status is $val",
+          "name": "CPU Total Load Status",
+          "format": "When the CPU Load Status is $val",
           "type": "communicate",
           "valueType": "choice",
           "valueChoices": ["Low", "Medium", "High"],
@@ -393,8 +421,8 @@
         },
         {
           "id": "tpohm_memory_load_event",
-          "name": "Memory Status",
-          "format": "When the Memory Status is $val",
+          "name": "Memory Load Status",
+          "format": "When the Memory Load Status is $val",
           "type": "communicate",
           "valueType": "choice",
           "valueChoices": ["Low", "Medium", "High"],
@@ -402,7 +430,7 @@
         },
         {
           "id": "tpohm_cpu_temperature_event",
-          "name": "CPU Temperature Status",
+          "name": "CPU Package Temperature Status",
           "format": "When the CPU Package Temperature Status is $val",
           "type": "communicate",
           "valueType": "choice",
@@ -411,13 +439,40 @@
         },
         {
           "id": "tpohm_gpu_temperature_event",
-          "name": "GPU Temperature Status",
+          "name": "GPU Core Temperature Status",
           "format": "When the GPU Core Temperature Status is $val",
           "type": "communicate",
           "valueType": "choice",
           "valueChoices": ["Low", "Medium", "High"],
           "valueStateId": "tpohm_gpu_core_temp_status"
-        }
+        },
+        {
+          "id": "tpohm_gpu_core_load_event",
+          "name": "GPU Core Load Status",
+          "format": "When the GPU Core Status is $val",
+          "type": "communicate",
+          "valueType": "choice",
+          "valueChoices": ["Low", "Medium", "High"],
+          "valueStateId": "tpohm_gpu_core_load_status"
+        },
+        {
+          "id": "tpohm_gpu_memory_load_event",
+          "name": "GPU Memory Load Status",
+          "format": "When the GPU Memory Status is $val",
+          "type": "communicate",
+          "valueType": "choice",
+          "valueChoices": ["Low", "Medium", "High"],
+          "valueStateId": "tpohm_gpu_memory_load_status"
+        },
+        {
+          "id": "tpohm_gpu_memory_temperature_event",
+          "name": "GPU Memory Temperature Status",
+          "format": "When the GPU Memory Temperature Status is $val",
+          "type": "communicate",
+          "valueType": "choice",
+          "valueChoices": ["Low", "Medium", "High"],
+          "valueStateId": "tpohm_gpu_memory_temp_status"
+        },
       ]
     }
   ]
