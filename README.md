@@ -10,10 +10,13 @@ TouchPortal Plugin to Utilize Statistics from Open Hardware Monitor - for Window
       - [RAM](#ram)
   - [Sample Page](#sample-page)
   - [Events](#events)
-    - [CPU Total Status](#cpu-total-status)
-    - [Memory Status](#memory-status)
-    - [CPU Package Temperature Status ++NEW++](#cpu-package-temperature-status-new)
-    - [GPU Core Temperature Status ++NEW++](#gpu-core-temperature-status-new)
+    - [CPU Total Load Status ++renamed 1.0.1++](#cpu-total-load-status-renamed-101)
+    - [Memory Load Status ++renamed 1.0.1++](#memory-load-status-renamed-101)
+    - [CPU Package Temperature Status ++NEW -renamed 1.0.1++](#cpu-package-temperature-status-new--renamed-101)
+    - [GPU Core Load Status ++NEW 1.0.1++](#gpu-core-load-status-new-101)
+    - [GPU Memory Load Status ++NEW 1.0.1++](#gpu-memory-load-status-new-101)
+    - [GPU Core Temperature Status ++NEW renamed 1.0.1++](#gpu-core-temperature-status-new-renamed-101)
+    - [GPU Memory Temperature Status ++NEW 1.0.1++](#gpu-memory-temperature-status-new-101)
   - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installing](#installing)
@@ -27,6 +30,8 @@ TouchPortal Plugin to Utilize Statistics from Open Hardware Monitor - for Window
   - [Acknowledgments](#acknowledgments)
 
 ## Current Sensors and Values Available
+
+__*NOTICE*__: Not all sensors configured will work with your computer, there may be some that don't show anything, and other sensors that I didn't know about were even available so have to be configured to work.  If there is one I missed open an Issue with your attached OHM report and the sensor you are requesting and it will get put on the log.
 
 These are the current sensors and values available via this plugin. This information will be transmitted back to Touch Portal every 1 seconds. If this becomes a problem I'll probably extract this out into a configuration file so it can be controlled by you.
 
@@ -71,8 +76,20 @@ _Note: All Decimals are to the tenths place. I chose not to include the symbol a
 
 - **Total GPU Load** - Percentage
   - state id is `tpohm_gpu_core_load_val`
+- **GPU Status** (based on Total GPU Load) - Threshold - **+NEW 1.0.1+**
+  - state id is `tpohm_gpu_core_load_status`
+    - Final Values are: `Low, Medium, High`
+      - `Low` is when &lt; 45% of GPU is used
+      - `Medium` is when &lt; 85% of GPU is used
+      - `High` is when &gt;= 85% of GPU is used
 - **Total GPU Memory Load** - Percentage
   - state id is `tpohm_gpu_memory_load_val`
+- **GPU Memory Status** (based on Total GPU Memory Load) - Threshold - **+NEW 1.0.1+**
+  - state id is `tpohm_gpu_memory_load_status`
+    - Final Values are: `Low, Medium, High`
+      - `Low` is when &lt; 40% of GPU Memory is used
+      - `Medium` is when &lt; 85% of GPU Memory is used
+      - `High` is when &gt;= 85% of GPU Memory is used
 - **GPU Core Clock** - Clock
   - state id is `tpohm_gpu_core_clock_val`
 - **GPU Memory Clock** - Clock
@@ -93,6 +110,14 @@ _Note: All Decimals are to the tenths place. I chose not to include the symbol a
   - state id is `tpohm_gpu_free_memory_val`
 - **GPU Memory Used** - SmallData
   - state id is `tpohm_gpu_used_memory_val`
+- **GPU Memory Temperature** - Temperature - Maybe AMD Only - **+NEW 1.0.1+**
+  - state id is `tpohm_gpu_memory_temp_val`
+- **GPU Memory Temperature Status** - Threshold - Maybe AMD Only - **+New 1.0.1+**
+  - state id is `tpohm_gpu_memory_temp_status`
+    - Final Values are: `Low, Medium, High`
+      - `Low` is when &lt; 40°C
+      - `Medium` is when &lt; 60°C
+      - `High` is when &gt;= 60°C
 
 #### RAM
 
@@ -123,7 +148,7 @@ Here is a gif of it in action on my phone (*note:* slightly different than exist
 
 ## Events
 
-### CPU Total Status
+### CPU Total Load Status ++renamed 1.0.1++
 
 This event is triggered off the state id `tpohm_cpu_total_load_status`
 
@@ -131,7 +156,7 @@ Example:
 
 ![TP OHM CPU Total Status](images/tp_ohm_cpu_total_status_event.png)
 
-### Memory Status
+### Memory Load Status ++renamed 1.0.1++
 
 This event is triggered off the state id `tpohm_memory_load_status`
 
@@ -139,7 +164,7 @@ Example:
 
 ![TP OHM Memory Status](images/tp_ohm_memory_status_event.png)
 
-### CPU Package Temperature Status ++NEW++
+### CPU Package Temperature Status ++NEW -renamed 1.0.1++
 
 This event is triggered off the state id `tpohm_cpu_package_temp_status`
 
@@ -147,13 +172,39 @@ Example:
 
 ![TP OHM CPU Temperature Status](images/tp_ohm_cpu_temperature_status_event.png)
 
-### GPU Core Temperature Status ++NEW++
+### GPU Core Load Status ++NEW 1.0.1++
+
+This event is triggered off the state id `tpohm_gpu_core_load_status`
+
+Example:
+
+![TP OHM GPU Core Load Status](images/tp_ohm_gpu_core_load_status_event.png)
+
+### GPU Memory Load Status ++NEW 1.0.1++
+
+This event is triggered off the state id `tpohm_gpu_memory_load_status`
+
+Example:
+
+![TP OHM GPU Memory Load Status](images/tp_ohm_gpu_memory_load_status_event.png)
+
+### GPU Core Temperature Status ++NEW renamed 1.0.1++
 
 This event is triggered off the state id `tpohm_gpu_core_temp_status`
 
 Example:
 
 ![TP OHM GPU Temperature Status](images/tp_ohm_gpu_temperature_status_event.png)
+
+### GPU Memory Temperature Status ++NEW 1.0.1++
+
+This event is triggered off the state id `tpohm_gpu_memory_temp_status`
+
+NOTE: This may be AMD GPU only
+
+Example:
+
+![TP OHM GPU Memory Temperature Status](images/tp_ohm_gpu_memory_temperature_status_event.png)
 
 ## Getting Started
 
