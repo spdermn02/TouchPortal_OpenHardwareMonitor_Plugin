@@ -12,7 +12,7 @@ use File::Basename qw(dirname);
 
 # Auto appends /n on the end of message, alternate to print "msg \n";
 use feature 'say';
-our $VERSION = '1.0.0';
+our $VERSION = '2';
 
 our $dir = dirname( abs_path($0) );
 
@@ -35,8 +35,7 @@ use constant wbemFlagReturnImmediately => 0x10;
 use constant wbemFlagForwardOnly       => 0x20;
 
 our ( $socket, $WMI );
-our $waitTime =
-  10;    #default wait 10 seconds per sensor read and update - 2.1 release issue
+our $waitTime = 10; #default wait 10 seconds per sensor read and update - 2.1 release issue
 our %sensor_config = load_sensor_config();
 our $time          = time;
 
