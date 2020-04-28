@@ -76,7 +76,7 @@ _Note: All Decimals are to the tenths place. I chose not to include the symbol a
 
 - **Total GPU Load** - Percentage
   - state id is `tpohm_gpu_core_load_val`
-- **GPU Status** (based on Total GPU Load) - Threshold - **+NEW 2+**
+- **GPU Status** (based on Total GPU Load) - Threshold - **+NEW v2+**
   - state id is `tpohm_gpu_core_load_status`
     - Final Values are: `Low, Medium, High`
       - `Low` is when &lt; 45% of GPU is used
@@ -84,7 +84,7 @@ _Note: All Decimals are to the tenths place. I chose not to include the symbol a
       - `High` is when &gt;= 85% of GPU is used
 - **Total GPU Memory Load** - Percentage
   - state id is `tpohm_gpu_memory_load_val`
-- **GPU Memory Status** (based on Total GPU Memory Load) - Threshold - **+NEW 2+**
+- **GPU Memory Status** (based on Total GPU Memory Load) - Threshold - **+NEW v2+**
   - state id is `tpohm_gpu_memory_load_status`
     - Final Values are: `Low, Medium, High`
       - `Low` is when &lt; 40% of GPU Memory is used
@@ -110,9 +110,9 @@ _Note: All Decimals are to the tenths place. I chose not to include the symbol a
   - state id is `tpohm_gpu_free_memory_val`
 - **GPU Memory Used** - SmallData
   - state id is `tpohm_gpu_used_memory_val`
-- **GPU Memory Temperature** - Temperature - Maybe AMD Only - **+NEW 2+**
+- **GPU Memory Temperature** - Temperature - Maybe AMD Only - **+NEW v2+**
   - state id is `tpohm_gpu_memory_temp_val`
-- **GPU Memory Temperature Status** - Threshold - Maybe AMD Only - **+New 2+**
+- **GPU Memory Temperature Status** - Threshold - Maybe AMD Only - **+New v2+**
   - state id is `tpohm_gpu_memory_temp_status`
     - Final Values are: `Low, Medium, High`
       - `Low` is when &lt; 40°C
