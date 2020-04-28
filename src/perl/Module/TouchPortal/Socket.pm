@@ -59,6 +59,15 @@ sub _send {
     }
 
     logIt( 'DEBUG', 'Sending: ' . $send_msg );
+    my $rc = $self->_send_json( $send_msg);
+
+    return $rc;
+}
+
+sub _send_json {
+    my $self = shift;
+    my ($send_msg) = @_;
+
     my $rc = $self->{'socket'}->send( $send_msg . "\n" );
 
     return $rc;
@@ -112,6 +121,26 @@ sub state_update {
     };
 
     return $self->_send($msg);
+
+}
+
+sub state_update_array {
+    my $self = shift;
+    my ( $stateArray ) = @_;
+
+    my @stateJsonArray = ();
+
+    foreach my $state ( @$stateArray ) {
+        my $msg = {
+        'type'  => 'stateUpdate',
+        'id'    => '' . $state->{id},
+        'value' => '' . $state->{value}
+        };
+
+        push @stateJsonArray, encode_json($msg);
+    }
+
+    $self->_send_json(join("\n",@stateJsonArray));
 
 }
 

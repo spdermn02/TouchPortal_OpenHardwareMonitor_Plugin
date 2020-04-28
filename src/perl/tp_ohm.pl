@@ -35,7 +35,8 @@ use constant wbemFlagReturnImmediately => 0x10;
 use constant wbemFlagForwardOnly       => 0x20;
 
 our ( $socket, $WMI );
-our $waitTime = 10; #default wait 10 seconds per sensor read and update - 2.1 release issue
+our $waitTime =
+  10;    #default wait 10 seconds per sensor read and update - 2.1 release issue
 our %sensor_config = load_sensor_config();
 our $time          = time;
 
@@ -137,6 +138,8 @@ sub get_sensor_data {
         return 0;
     }
 
+    my @stateArray = ();
+
     foreach my $sensor ( in $sensors) {
         my $type   = $sensor->{SensorType};
         my $name   = $sensor->{Name};
@@ -155,7 +158,7 @@ sub get_sensor_data {
                     $parent, $name, $type, $value
                 )
             );
-            process_sensor( $type, $name, $value );
+            process_sensor( $type, $name, $value, \@stateArray );
         }
         else {
             logIt(
@@ -169,18 +172,22 @@ sub get_sensor_data {
         }
     }
 
+    my $rc = $socket->state_update_array( \@stateArray );
+
     return 1;
 }
 
 sub process_sensor {
-    my ( $type, $name, $value ) = @_;
+    my ( $type, $name, $value, $stateArray ) = @_;
 
     $sensor_info = $sensor_config{$type}->{$name};
 
     foreach my $id ( @{ $sensor_info->{ids} } ) {
         if ( $id->{type} eq "value" ) {
 
-            $socket->state_update( $id->{id}, sprintf( "%.1f", $value ) );
+            #$socket->state_update( $id->{id}, sprintf( "%.1f", $value ) );
+            push @$stateArray,
+              { id => $id->{id}, value => sprintf( "%.1f", $value ) };
         }
         elsif ( $id->{type} eq "threshold" ) {
             my $useValue = $id->{default};
@@ -190,7 +197,9 @@ sub process_sensor {
                     last;
                 }
             }
-            $socket->state_update( $id->{id}, $useValue );
+
+            #$socket->state_update( $id->{id}, $useValue );
+            push @$stateArray, { id => $id->{id}, value => $useValue };
         }
     }
 
