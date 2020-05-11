@@ -228,7 +228,7 @@ sub _roll_log {
     if ( ( $curTime - $time ) / SEC_OF_DAY > 1 ) {
         close $debugLog;
         open $debugLog, '>', $dir . '\tpohm.log';
-        logIf( 'WARN',
+        logIt( 'WARN',
             'Cleaned Debug log due to 24 hour length timeframe for log rolling'
         );
         $time = $curTime;
