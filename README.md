@@ -21,6 +21,8 @@ TouchPortal Plugin to Utilize Statistics from Open Hardware Monitor - for Window
   - [Prerequisites](#prerequisites)
   - [Installing](#installing)
   - [Updating](#updating)
+  - [Configuration](#configuration)
+      - [**+NEW for v3+**](#new-for-v3)
   - [Troubleshooting](#troubleshooting)
   - [Notes](#notes)
   - [Built With](#built-with)
@@ -271,6 +273,21 @@ When an update is put out, please follow these instructions to install
 
 **Step 4** to to Step 3 of the install guide and load the plugin
 
+## Configuration
+#### **+NEW for v3+**
+Currently only 1 configuration parameter is setup and that is update interval from the tp_ohm.exe back to Touch Portal.  The config file is in the plugins\OpenHardwareMonitor folder and it is called tp_ohm.cfg. It is a JSON formatted file, and the only configuration item is `updateInterval`. The file looks like below, and the value is in milliseconds. So by default, the update Interval is every 2000 milliseconds, or 2 seconds.  
+
+```json
+{
+    "updateInterval": "2000"
+}
+```
+To edit the file just open in notepad or your favorite text editor and modify the number only. If you break the formatting it will kill the program. This has been tested with as fast as 500 ms but I do not recommend that as it consumes CPU and there really is no need to update THAT fast.
+
+Once you are done editing save the file, and then close and reopen Touch Portal, as tp_ohm.exe does not re-read this file every execution cycle (*because that would be silly... or would it.. maybe another time*)
+
+__*NOTE: Changing this is at your own risk. Your computer may not handle this as well as others, and it may cause higher than normal CPU usage if you are trying to update faster than every 2000 milliseconds.*__
+
 ## Troubleshooting
 
 Touch Portal will log that it attempted to load the plugin in it's log file
@@ -290,7 +307,7 @@ and a little lower you should see something like this:
 00:48:08 - [LOG] (Plugin System) Executing plugin service: "C:\Users\<USERNAME>\AppData\Roaming\TouchPortal\plugins\OpenHardwareMonitor\tp_ohm.exe"
 ```
 
-There is also a logfile under the OpenHardwareMonitor plugin folder, %APPDATA%\TouchPortal\plugins\OpenHardwareMonitor\tpohm.log
+There is also a logfile under the OpenHardwareMonitor plugin folder, %APPDATA%\TouchPortal\plugins\OpenHardwareMonitor\tp_ohm.log
 
 ```
 [START] tp_ohm is starting up, and about to connect

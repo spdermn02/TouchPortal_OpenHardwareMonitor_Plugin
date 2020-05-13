@@ -9,6 +9,7 @@ use Win32::OLE::Const;
 use JSON;
 use Cwd qw(abs_path);
 use File::Basename qw(dirname);
+use Time::HiRes qw( usleep );
 
 # Auto appends /n on the end of message, alternate to print "msg \n";
 use feature 'say';
@@ -17,14 +18,17 @@ our $VERSION = '2';
 our $dir = dirname( abs_path($0) );
 
 our $debugLog = undef;
-open $debugLog, '>', $dir . '\tpohm.log';
-
+open $debugLog, '>', $dir . '\tp_ohm.log';
 select $debugLog;
 ## Auto flush prints
 $| = 1;
 
 use constant {
     SEC_OF_DAY => 60 * 60 * 24,
+
+    DEFAULT_INTERVAL => 2000,    #Default of 2000 ms for loop interval
+
+    MILLI_to_MICRO => 1000,
 
     ID   => 'TPOpenHardwareMonitor',
     HOST => 'localhost',
@@ -34,9 +38,27 @@ use constant {
 use constant wbemFlagReturnImmediately => 0x10;
 use constant wbemFlagForwardOnly       => 0x20;
 
+our $configFile = $dir . '\tp_ohm.cfg';
+our $cfg        = {};
+if ( open( my $jcfg, '<', $configFile ) ) {
+    my $json = '';
+    while(<$jcfg>) { $json .= $_; };
+    close $jcfg;
+    chomp $json;
+    eval { $cfg = decode_json($json); } or do {
+        logIt( 'FATAL', "Unable to parse json data from $configFile rc=" . $@ );
+        exit 9;
+    };
+}
+else {
+    logIt( 'ERROR', "unable to read $configFile will use defaults" );
+}
+
 our ( $socket, $WMI );
-our $waitTime =
-  10;    #default wait 10 seconds per sensor read and update - 2.1 release issue
+our $updateInterval = $cfg->{updateInterval} // DEFAULT_INTERVAL;
+
+#convert for use in usleep of microseconds
+$updateInterval = $updateInterval * MILLI_to_MICRO;
 our %sensor_config = load_sensor_config();
 our $time          = time;
 
@@ -77,7 +99,7 @@ sub main {
             last;
         }
 
-        sleep $waitTime;
+        usleep $updateInterval;
     }
 
     # If we get here and we are still connected,
