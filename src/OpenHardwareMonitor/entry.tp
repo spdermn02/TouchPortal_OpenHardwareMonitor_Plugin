@@ -435,7 +435,7 @@
           "type": "communicate",
           "valueType": "choice",
           "valueChoices": ["Low", "Medium", "High"],
-          "valueStateId": "tpohm_cpu_package_temp_val"
+          "valueStateId": "tpohm_cpu_package_temp_status"
         },
         {
           "id": "tpohm_gpu_temperature_event",
