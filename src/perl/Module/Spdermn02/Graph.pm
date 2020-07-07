@@ -11,13 +11,17 @@ use constant {
 };
 
 sub bar_graph {
+    my $config      = shift;
     my $valuesArray = shift;
 
     my $image = GD::Image->new( WIDTH, HEIGHT );
 
     my $white = $image->colorAllocate( 255, 255, 255 );
     my $black = $image->colorAllocate( 0,   0,   0 );
-    my $blue  = $image->colorAllocate( 0,   0,   255 );
+    my $defaultColor = [ 0, 0, 255 ];
+    my $useColor     = $config->{barGraphColor} // $defaultColor;
+    my $barColor =
+      $image->colorAllocate( $useColor->[0], $useColor->[1], $useColor->[2] );
 
     $image->transparent($white);
 
@@ -38,72 +42,77 @@ sub bar_graph {
 
         #$image->rectangle( 126, 63, 127, 127 )
         #print "$i $percentage image->rectangle( $x1, $y1, $x2, $y2 )\n";
-        $image->rectangle( $x1, $y1, $x2, $y2, $blue );
+        $image->rectangle( $x1, $y1, $x2, $y2, $barColor );
         $cur--;
     }
 
-    #my $count = $#{$valuesArray};
-
-    #open my $out, '> ', "graph.png" or die;
-    #binmode $out;
-    #print $out $image->png(0);
-    #close $out;
-
     my $img = $image->png(0);
 
-    #use MIME::Base64
-    #  qw(encode_base64url encode_base64 decode_base64 decode_base64url);
-
-    #open my $im, '< ', 'test.png' or die;
-    #binmode $im;
-    #my $file;
-    #while (<$im>) { $file .= $_; }
-    #close $im;
-    #chomp $file;
-    #my $file = encode_base64( $img, '' );
-    #my $file = encode_base64url($img);
-
-    #open my $outf, '> ', "test1.png" or die;
-    #binmode $outf;
-    #print $outf decode_base64url($file);
-    #close $outf;
-
     return $img;
-
 }
 
-our $count = 0;
-
 sub gauge {
+    my $config = shift;
 
     my $value = shift;
 
     #my $dash = new GD::Dashboard( FNAME => '.\m1.png' );
-    my $dash = new Spdermn02::Dashboard( FNAME => '.\m2.png' );
+    my $dash = new Spdermn02::Dashboard( FNAME => '.\images\m2.png' );
 
     my $g1 = new Spdermn02::Dashboard::Gauge(
-        FNAME => '.\base.png',
-        MIN   => 0,
-        MAX   => 100,
+        MIN => 0,
+        MAX => 100,
 
-        #VAL => $value,
+        VAL => $value,
+
         #VAL => 0,
-        VAL => 100,
+        #VAL => 100,
 
         NA1 => 3.14 / 2 + 2.10,
         NA2 => 3.14 / 2 - 2.10,
 
         #NA1   => 3.14 / 2 + 0.82,
         #NA2   => 3.14 / 2 - 0.82,
-        #NX => 64,
-        #NY => 70,
-        NX   => 128,
-        NY   => 140,
-        NLEN => 100,
+        #NX => 64, #for 128x128
+        #NY => 70, #for 128x128
+        #NLEN => 50,    #for 128x128
+        NX   => 128,    #for 256x256
+        NY   => 140,    #for 256x256
+        NLEN => 100,    #for 256x256
 
         #NX     => 256,
         #NY     => 300,
         #NLEN   => 50,
+        NCOLOR => $config->{needleColor} // [ 0, 0, 255 ],
+        NWIDTH => 3
+    );
+
+    $dash->add_meter( 'gauge', $g1 );
+
+    return $dash->png();
+}
+
+sub gauge_w_config {
+    my ( $value, $min, $max, $color, $counterClockwise ) = @_;
+
+    my $dash = new Spdermn02::Dashboard( FNAME => '.\images\m2.png' );
+
+    my $g1 = new Spdermn02::Dashboard::Gauge(
+        MIN => 0,
+        MAX => 100,
+
+        VAL => $value,
+
+        NA1 => 3.14 / 2 + 2.10,
+        NA2 => 3.14 / 2 - 2.10,
+
+        #NX => 64, #for 128x128
+        #NY => 70, #for 128x128
+        #NLEN => 50,    #for 128x128
+        NX   => 128,    #for 256x256
+        NY   => 140,    #for 256x256
+        NLEN => 100,    #for 256x256
+
         NCOLOR => [ 0, 0, 255 ],
         NWIDTH => 3
     );

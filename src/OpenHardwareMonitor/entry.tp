@@ -1,5 +1,5 @@
 {
-  "sdk": 1,
+  "sdk": 2,
   "version": 3,
   "name": "Touch Portal Open Hardware Monitor Interface",
   "id": "TPOpenHardwareMonitor",
@@ -71,17 +71,23 @@
           "valueChoices": ["0"]
         },
         {
-          "id": "tpohm_gpu_core_load_gauge",
-          "type": "text",
-          "desc": "TP OHM GPU Core Load Gauge",
-          "default": "",
-        },
-        {
           "id": "tpohm_gpu_core_load_status",
           "type": "choice",
           "desc": "TP OHM GPU Core Load Status",
           "default": "Low",
           "valueChoices": ["Low", "Medium", "High"]
+        },
+        {
+          "id": "tpohm_gpu_core_load_graph",
+          "type": "text",
+          "desc": "TP OHM GPU Core Load Graph",
+          "default": "",
+        },
+        {
+          "id": "tpohm_gpu_core_load_gauge",
+          "type": "text",
+          "desc": "TP OHM GPU Core Load Gauge",
+          "default": "",
         },
         {
           "id": "tpohm_gpu_memory_load_val",

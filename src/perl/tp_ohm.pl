@@ -215,25 +215,34 @@ sub process_sensor {
     my $prevValue = $sensor_info->{prevValue} // '';
     my $curValue  = sprintf( "%.1f", $value );
 
-    if ( $curValue eq $prevValue ) {
-        logIt(
-            'INFO',
-            sprintf(
-"Value - Sensor %s value has not changed from %s will not send update",
-                $name, $prevValue
-            )
-        );
-        return;
-    }
-
     foreach my $id ( @{ $sensor_info->{ids} } ) {
 
         if ( $id->{type} eq "value" ) {
+            if ( $curValue eq $prevValue ) {
+                logIt(
+                    'INFO',
+                    sprintf(
+"Value - Sensor %s value has not changed from %s will not send update for value",
+                        $name, $prevValue
+                    )
+                );
+                next;
+            }
             my $useValue = sprintf( "%.1f", $value );
 
             push @$stateArray, { id => $id->{id}, value => $useValue };
         }
         elsif ( $id->{type} eq "threshold" ) {
+            if ( $curValue eq $prevValue ) {
+                logIt(
+                    'INFO',
+                    sprintf(
+"Threshold - Sensor %s value has not changed from %s will not send update for threshold",
+                        $name, $prevValue
+                    )
+                );
+                next;
+            }
             my $useValue = $id->{default};
             foreach my $threshold ( @{ $id->{thresholds} } ) {
                 if ( int($value) >= int( $threshold->{threshold} ) ) {
@@ -251,7 +260,7 @@ sub process_sensor {
             }
             push @$vals, sprintf( "%.1f", $value );
 
-            my $img = bar_graph($vals);
+            my $img = bar_graph( $cfg, $vals );
             chomp($img);
 
             my $imgB64 = encode_base64( $img, '' );
@@ -260,7 +269,17 @@ sub process_sensor {
             push @$stateArray, { id => $id->{id}, value => "${imgB64}" };
         }
         elsif ( $id->{type} eq "gauge" ) {
-            my $img = gauge( sprintf( "%.1f", $value ) );
+            if ( $curValue eq $prevValue ) {
+                logIt(
+                    'INFO',
+                    sprintf(
+"Gauge - Sensor %s value has not changed from %s will not send update for gauge",
+                        $name, $prevValue
+                    )
+                );
+                next;
+            }
+            my $img = gauge( $cfg, sprintf( "%.1f", $value ) );
             chomp($img);
 
             my $imgB64 = encode_base64( $img, '' );
@@ -320,10 +339,10 @@ sub load_sensor_config {
                         ]
                     },
                     {
-                        id   => 'tpohm_cpu_total_load_graph_1',
+                        id   => 'tpohm_cpu_total_load_graph',
                         type => 'bar_graph'
                     },
-                    { id => 'tpohm_cpu_total_load_graph', type => 'gauge' }
+                    { id => 'tpohm_cpu_total_load_gauge', type => 'gauge' }
                 ],
                 values => []
             },
@@ -418,7 +437,11 @@ sub load_sensor_config {
                             { threshold => 45, value => "Medium" }
                         ]
                     },
-                    { id => 'tpohm_gpu_total_load_graph', type => 'gauge' }
+                    {
+                        id   => 'tpohm_gpu_core_load_graph',
+                        type => 'bar_graph'
+                    },
+                    { id => 'tpohm_gpu_core_load_gauge', type => 'gauge' }
                 ],
                 values => []
             },
