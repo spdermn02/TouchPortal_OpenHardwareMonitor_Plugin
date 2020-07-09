@@ -68,7 +68,7 @@ sub _get_time {
     return sprintf(
         "%04d-%02d-%02d %02d:%02d:%02d.%06d",
         $year + 1900,
-        $month + 1, $day, $hour, $min, $sec, $usec
+        $month + 1, $mday, $hour, $min, $sec, $usec
     );
 }
 

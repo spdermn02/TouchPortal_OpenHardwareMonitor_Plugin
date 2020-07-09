@@ -1,6 +1,6 @@
 {
-  "sdk": 1,
-  "version": 3,
+  "sdk": 2,
+  "version": 4,
   "name": "Touch Portal Open Hardware Monitor Interface",
   "id": "TPOpenHardwareMonitor",
   "plugin_start_cmd": "\"%TP_PLUGIN_FOLDER%OpenHardwareMonitor\\tp_ohm.exe\"",
@@ -38,6 +38,18 @@
           "valueChoices": ["Low", "Medium", "High"]
         },
         {
+          "id": "tpohm_cpu_total_load_graph",
+          "type": "text",
+          "desc": "TP OHM CPU Total Load Graph",
+          "default": "",
+        },
+        {
+          "id": "tpohm_cpu_total_load_gauge",
+          "type": "text",
+          "desc": "TP OHM CPU Total Load Gauge",
+          "default": "",
+        },
+        {
           "id": "tpohm_memory_load_val",
           "type": "choice",
           "desc": "TP OHM Memory Load Value",
@@ -64,6 +76,18 @@
           "desc": "TP OHM GPU Core Load Status",
           "default": "Low",
           "valueChoices": ["Low", "Medium", "High"]
+        },
+        {
+          "id": "tpohm_gpu_core_load_graph",
+          "type": "text",
+          "desc": "TP OHM GPU Core Load Graph",
+          "default": "",
+        },
+        {
+          "id": "tpohm_gpu_core_load_gauge",
+          "type": "text",
+          "desc": "TP OHM GPU Core Load Gauge",
+          "default": "",
         },
         {
           "id": "tpohm_gpu_memory_load_val",

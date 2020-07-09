@@ -2,10 +2,14 @@
 
 use lib "./Module";
 
+use Data::Dumper;
+
 use TouchPortal::Socket;
 use Spdermn02::Logger qw( logIt );
+use Spdermn02::Graph;
 use Win32::OLE;
 use Win32::OLE::Const;
+use MIME::Base64 qw(encode_base64url encode_base64);
 use JSON;
 use Cwd qw(abs_path);
 use File::Basename qw(dirname);
@@ -42,7 +46,7 @@ our $configFile = $dir . '\tp_ohm.cfg';
 our $cfg        = {};
 if ( open( my $jcfg, '<', $configFile ) ) {
     my $json = '';
-    while(<$jcfg>) { $json .= $_; };
+    while (<$jcfg>) { $json .= $_; }
     close $jcfg;
     chomp $json;
     eval { $cfg = decode_json($json); } or do {
@@ -162,6 +166,7 @@ sub get_sensor_data {
 
     my @stateArray = ();
 
+    my $count = 0;
     foreach my $sensor ( in $sensors) {
         my $type   = $sensor->{SensorType};
         my $name   = $sensor->{Name};
@@ -181,6 +186,7 @@ sub get_sensor_data {
                 )
             );
             process_sensor( $type, $name, $value, \@stateArray );
+            $count++;
         }
         else {
             logIt(
@@ -194,7 +200,9 @@ sub get_sensor_data {
         }
     }
 
-    my $rc = $socket->state_update_array( \@stateArray );
+    if ($count) {
+        my $rc = $socket->state_update_array( \@stateArray );
+    }
 
     return 1;
 }
@@ -204,14 +212,37 @@ sub process_sensor {
 
     $sensor_info = $sensor_config{$type}->{$name};
 
-    foreach my $id ( @{ $sensor_info->{ids} } ) {
-        if ( $id->{type} eq "value" ) {
+    my $prevValue = $sensor_info->{prevValue} // '';
+    my $curValue  = sprintf( "%.1f", $value );
 
-            #$socket->state_update( $id->{id}, sprintf( "%.1f", $value ) );
-            push @$stateArray,
-              { id => $id->{id}, value => sprintf( "%.1f", $value ) };
+    foreach my $id ( @{ $sensor_info->{ids} } ) {
+
+        if ( $id->{type} eq "value" ) {
+            if ( $curValue eq $prevValue ) {
+                logIt(
+                    'INFO',
+                    sprintf(
+"Value - Sensor %s value has not changed from %s will not send update for value",
+                        $name, $prevValue
+                    )
+                );
+                next;
+            }
+            my $useValue = sprintf( "%.1f", $value );
+
+            push @$stateArray, { id => $id->{id}, value => $useValue };
         }
         elsif ( $id->{type} eq "threshold" ) {
+            if ( $curValue eq $prevValue ) {
+                logIt(
+                    'INFO',
+                    sprintf(
+"Threshold - Sensor %s value has not changed from %s will not send update for threshold",
+                        $name, $prevValue
+                    )
+                );
+                next;
+            }
             my $useValue = $id->{default};
             foreach my $threshold ( @{ $id->{thresholds} } ) {
                 if ( int($value) >= int( $threshold->{threshold} ) ) {
@@ -220,11 +251,45 @@ sub process_sensor {
                 }
             }
 
-            #$socket->state_update( $id->{id}, $useValue );
             push @$stateArray, { id => $id->{id}, value => $useValue };
+        }
+        elsif ( $id->{type} eq "bar_graph" ) {
+            my $vals = $sensor_info->{values};
+            if ( $#{$vals} == 127 ) {
+                shift @$vals;
+            }
+            push @$vals, sprintf( "%.1f", $value );
+
+            my $img = bar_graph( $cfg, $vals );
+            chomp($img);
+
+            my $imgB64 = encode_base64( $img, '' );
+
+            chomp $imgB64;
+            push @$stateArray, { id => $id->{id}, value => "${imgB64}" };
+        }
+        elsif ( $id->{type} eq "gauge" ) {
+            if ( $curValue eq $prevValue ) {
+                logIt(
+                    'INFO',
+                    sprintf(
+"Gauge - Sensor %s value has not changed from %s will not send update for gauge",
+                        $name, $prevValue
+                    )
+                );
+                next;
+            }
+            my $img = gauge( $cfg, sprintf( "%.1f", $value ) );
+            chomp($img);
+
+            my $imgB64 = encode_base64( $img, '' );
+
+            chomp $imgB64;
+            push @$stateArray, { id => $id->{id}, value => "${imgB64}" };
         }
     }
 
+    $sensor_info->{prevValue} = $curValue;
 }
 
 sub _normalize_name_by_type {
@@ -272,8 +337,14 @@ sub load_sensor_config {
                             { threshold => 85, value => "High" },
                             { threshold => 45, value => "Medium" }
                         ]
-                    }
-                ]
+                    },
+                    {
+                        id   => 'tpohm_cpu_total_load_graph',
+                        type => 'bar_graph'
+                    },
+                    { id => 'tpohm_cpu_total_load_gauge', type => 'gauge' }
+                ],
+                values => []
             },
             'Memory' => {
                 ids => [
@@ -365,8 +436,14 @@ sub load_sensor_config {
                             { threshold => 85, value => "High" },
                             { threshold => 45, value => "Medium" }
                         ]
-                    }
-                ]
+                    },
+                    {
+                        id   => 'tpohm_gpu_core_load_graph',
+                        type => 'bar_graph'
+                    },
+                    { id => 'tpohm_gpu_core_load_gauge', type => 'gauge' }
+                ],
+                values => []
             },
             'GPU Memory' => {
                 ids => [

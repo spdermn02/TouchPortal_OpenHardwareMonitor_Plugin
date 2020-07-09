@@ -6,23 +6,25 @@ TouchPortal Plugin to Utilize Statistics from Open Hardware Monitor - for Window
   - [Current Sensors and Values Available](#current-sensors-and-values-available)
         - [Data Types](#data-types)
       - [CPU](#cpu)
-      - [GPU +NEW+](#gpu-new)
+      - [GPU](#gpu)
       - [RAM](#ram)
+  - [Gauges and Graphs ++New in v4](#gauges-and-graphs-new-in-v4)
   - [Sample Page](#sample-page)
+  - [Sample Buttons for Bargraphs and Gauges ++New in v4](#sample-buttons-for-bargraphs-and-gauges-new-in-v4)
   - [Events](#events)
-    - [CPU Total Load Status ++renamed v2++](#cpu-total-load-status-renamed-v2)
-    - [Memory Load Status ++renamed v2++](#memory-load-status-renamed-v2)
-    - [CPU Package Temperature Status ++NEW -renamed v2++](#cpu-package-temperature-status-new--renamed-v2)
-    - [GPU Core Load Status ++NEW v2++](#gpu-core-load-status-new-v2)
-    - [GPU Memory Load Status ++NEW v2++](#gpu-memory-load-status-new-v2)
-    - [GPU Core Temperature Status ++NEW renamed v2++](#gpu-core-temperature-status-new-renamed-v2)
-    - [GPU Memory Temperature Status ++NEW v2++](#gpu-memory-temperature-status-new-v2)
+    - [CPU Total Load Status](#cpu-total-load-status)
+    - [Memory Load Status](#memory-load-status)
+    - [CPU Package Temperature Status](#cpu-package-temperature-status)
+    - [GPU Core Load Status](#gpu-core-load-status)
+    - [GPU Memory Load Status](#gpu-memory-load-status)
+    - [GPU Core Temperature Status](#gpu-core-temperature-status)
+    - [GPU Memory Temperature Status](#gpu-memory-temperature-status)
   - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installing](#installing)
   - [Updating](#updating)
   - [Configuration](#configuration)
-      - [**+NEW for v3+**](#new-for-v3)
+      - [**+UPDATE for v4+**](#update-for-v4)
   - [Troubleshooting](#troubleshooting)
   - [Notes](#notes)
   - [Built With](#built-with)
@@ -59,26 +61,26 @@ _Note: All Decimals are to the tenths place. I chose not to include the symbol a
       - `Low` is when &lt; 45% of CPU is used
       - `Medium` is when &lt; 85% of CPU is used
       - `High` is when &gt;= 85% of CPU is used
-- **CPU Core Load Values 1-16 Cores** - Percentage **+NEW+**
+- **CPU Core Load Values 1-16 Cores** - Percentage
   - state ids are `tpohm_cpu_core_1_load_val` - `tpohm_cpu_core_16_load_val`
-- **CPU Core Clock Values 1-16 Cores** - Clock **+NEW+**
+- **CPU Core Clock Values 1-16 Cores** - Clock
   - state ids are `tpohm_cpu_core_1_clock_val` - `tpohm_cpu_core_1_clock_val`
-- **CPU Package Temperature** - Temperature **+NEW+**
+- **CPU Package Temperature** - Temperature
   - state id is `tpohm_cpu_package_temp_val`
-- **CPU Package Temperature Status** - Threshold **+NEW+**
+- **CPU Package Temperature Status** - Threshold
   - state id is `tpohm_cpu_package_temp_status`
     - Final Values are: `Low, Medium, High`
       - `Low` is when &lt; 45°C
       - `Medium` is when &lt; 65°C
       - `High` is when &gt;= 65°C
-- **CPU Package Power** - Power **+NEW+**
+- **CPU Package Power** - Power
   - state id is `tpohm_cpu_package_power_val`
 
-#### GPU +NEW+
+#### GPU
 
 - **Total GPU Load** - Percentage
   - state id is `tpohm_gpu_core_load_val`
-- **GPU Status** (based on Total GPU Load) - Threshold - **+NEW v2+**
+- **GPU Status** (based on Total GPU Load) - Threshold
   - state id is `tpohm_gpu_core_load_status`
     - Final Values are: `Low, Medium, High`
       - `Low` is when &lt; 45% of GPU is used
@@ -86,7 +88,7 @@ _Note: All Decimals are to the tenths place. I chose not to include the symbol a
       - `High` is when &gt;= 85% of GPU is used
 - **Total GPU Memory Load** - Percentage
   - state id is `tpohm_gpu_memory_load_val`
-- **GPU Memory Status** (based on Total GPU Memory Load) - Threshold - **+NEW v2+**
+- **GPU Memory Status** (based on Total GPU Memory Load) - Threshold
   - state id is `tpohm_gpu_memory_load_status`
     - Final Values are: `Low, Medium, High`
       - `Low` is when &lt; 40% of GPU Memory is used
@@ -112,9 +114,9 @@ _Note: All Decimals are to the tenths place. I chose not to include the symbol a
   - state id is `tpohm_gpu_free_memory_val`
 - **GPU Memory Used** - SmallData
   - state id is `tpohm_gpu_used_memory_val`
-- **GPU Memory Temperature** - Temperature - Maybe AMD Only - **+NEW v2+**
+- **GPU Memory Temperature** - Temperature - Maybe AMD Only
   - state id is `tpohm_gpu_memory_temp_val`
-- **GPU Memory Temperature Status** - Threshold - Maybe AMD Only - **+New v2+**
+- **GPU Memory Temperature Status** - Threshold - Maybe AMD Only
   - state id is `tpohm_gpu_memory_temp_status`
     - Final Values are: `Low, Medium, High`
       - `Low` is when &lt; 40°C
@@ -132,10 +134,34 @@ _Note: All Decimals are to the tenths place. I chose not to include the symbol a
       - `Low` is when &lt; 40% of Memory is used
       - `Medium` is when &lt; 85% of Memory is used
       - `High` is when &gt;= 85% of Memory is used
-- **Used Memory** - Data **+NEW+**
+- **Used Memory** - Data
   - state id is `tpohm_used_memory_val`
-- **Available Memory** - Data **+NEW+**
+- **Available Memory** - Data
   - state id is `tpohm_avail_memory_val`
+
+## Gauges and Graphs ++New in v4
+
+With the SDK update to 2 and 2.2 of Touch Portal being released, you can now have images sent from plugins back to Touch Portal.
+
+So with that I wanted to test out (minimal at first) with a few different options. 
+
+**CPU and GPU Load Bar Graph**
+
+You can now have an icon updated on your screen with a bar graph representation of each reading from OHM. This is accomplished by using this action and event combination on the button you want to have the icon shown on.
+
+![TP OHM CPU Load Bargraph](images/tp_ohm_cpu_load_bargraph.png)
+![TP OHM GPU Load Bargraph](images/tp_ohm_gpu_load_bargraph.png)
+
+*NOTE*: This updates every time the plugin runs an update, so again if your mobile device is struggling, maybe increase the time between sends in the config file.
+
+**CPU and GPU Load Gauge**
+
+You can now have an icon updated on your screen with a gaguge representation of each reading from OHM. This is accomplished by using this action and event combination on the button you want to have the icon shown on.
+
+![TP OHM CPU Load Gauge](images/tp_ohm_cpu_load_gauge.png)
+![TP OHM GPU Load Gauge](images/tp_ohm_gpu_load_gauge.png)
+
+*NOTE*: Unlike the bar graph, this only updates if the previous value is different than the next read value.
 
 ## Sample Page
 
@@ -148,9 +174,22 @@ Here is a gif of it in action on my phone (*note:* slightly different than exist
 
 ![TP OHM Example on iPhone XSMax](images/tp_ohm_page_on_phone.gif)
 
+## Sample Buttons for Bargraphs and Gauges ++New in v4
+
+These are all 1x1 buttons but were on a 4 x 3 landscape screen
+
+CPU Load Gauge - import this button: [TP OHM CPU Load Gauge Button](resources/tp_ohm_cpu_load_gauge.tpb)
+
+CPU Load Bargraph - import this button: [TP OHM GPU Load Bargraph Button](resources/tp_ohm_cpu_load_bargraph.tpb)
+
+GPU Load Gauge - import this button: [TP OHM GPU Load Gauge Button](resources/tp_ohm_gpu_load_gauge.tpb)
+
+GPU Load Bargraph - import this button: [TP OHM GPU Load Bargraph Button](resources/tp_ohm_gpu_load_bargraph.tpb)
+
+
 ## Events
 
-### CPU Total Load Status ++renamed v2++
+### CPU Total Load Status
 
 This event is triggered off the state id `tpohm_cpu_total_load_status`
 
@@ -158,7 +197,7 @@ Example:
 
 ![TP OHM CPU Total Status](images/tp_ohm_cpu_total_status_event.png)
 
-### Memory Load Status ++renamed v2++
+### Memory Load Status
 
 This event is triggered off the state id `tpohm_memory_load_status`
 
@@ -166,7 +205,7 @@ Example:
 
 ![TP OHM Memory Status](images/tp_ohm_memory_status_event.png)
 
-### CPU Package Temperature Status ++NEW -renamed v2++
+### CPU Package Temperature Status
 
 This event is triggered off the state id `tpohm_cpu_package_temp_status`
 
@@ -174,7 +213,7 @@ Example:
 
 ![TP OHM CPU Temperature Status](images/tp_ohm_cpu_temperature_status_event.png)
 
-### GPU Core Load Status ++NEW v2++
+### GPU Core Load Status
 
 This event is triggered off the state id `tpohm_gpu_core_load_status`
 
@@ -182,7 +221,7 @@ Example:
 
 ![TP OHM GPU Core Load Status](images/tp_ohm_gpu_core_load_status_event.png)
 
-### GPU Memory Load Status ++NEW v2++
+### GPU Memory Load Status
 
 This event is triggered off the state id `tpohm_gpu_memory_load_status`
 
@@ -190,7 +229,7 @@ Example:
 
 ![TP OHM GPU Memory Load Status](images/tp_ohm_gpu_memory_load_status_event.png)
 
-### GPU Core Temperature Status ++NEW renamed v2++
+### GPU Core Temperature Status
 
 This event is triggered off the state id `tpohm_gpu_core_temp_status`
 
@@ -198,7 +237,7 @@ Example:
 
 ![TP OHM GPU Temperature Status](images/tp_ohm_gpu_temperature_status_event.png)
 
-### GPU Memory Temperature Status ++NEW v2++
+### GPU Memory Temperature Status
 
 This event is triggered off the state id `tpohm_gpu_memory_temp_status`
 
@@ -274,19 +313,32 @@ When an update is put out, please follow these instructions to install
 **Step 4** to to Step 3 of the install guide and load the plugin
 
 ## Configuration
-#### **+NEW for v3+**
-Currently only 1 configuration parameter is setup and that is update interval from the tp_ohm.exe back to Touch Portal.  The config file is in the plugins\OpenHardwareMonitor folder and it is called tp_ohm.cfg. It is a JSON formatted file, and the only configuration item is `updateInterval`. The file looks like below, and the value is in milliseconds. So by default, the update Interval is every 2000 milliseconds, or 2 seconds.  
+#### **+UPDATE for v4+**
+The config file is in the plugins\OpenHardwareMonitor folder and it is called tp_ohm.cfg. It is a JSON formatted file. 
+
+The file looks like below, and the value is in milliseconds. So by default, the update Interval is every 2000 milliseconds, or 2 seconds.  
 
 ```json
 {
-    "updateInterval": "2000"
+    "updateInterval": "2000",
+    "needleColor":[0,0,255],
+    "barGraphColor": [0,0,255]
 }
 ```
-To edit the file just open in notepad or your favorite text editor and modify the number only. If you break the formatting it will kill the program. This has been tested with as fast as 500 ms but I do not recommend that as it consumes CPU and there really is no need to update THAT fast.
+
+**Configuration Options**
+
+* updateInterval - how often (in ms) do you want updates sent to TouchPortal.  Realistically every 2 seconds is fine, older mobile devices may not handle the updates to a page well that often, so I suggest lowest is 2000, and raise that if your mobile device is having issue rendering the data. 
+    * __*NOTE: Changing this is at your own risk. Your computer may not handle this as well as others, and it may cause higher than normal CPU usage if you are trying to update faster than every 2000 milliseconds.*__
+
+* needleColor - the needle color of the gauge icon that is rendered. this is [ R, G, B ] format - so find the color you want, find the RGB value, and put each value in the correct position here. (default: 0,0,255 is blue)
+
+* barGraphColor - the bar graph line color that is rendered. this is [ R, G, B ] format - so find the color you want, find the RGB value, and put each value in the correct position here. (default: 0,0,255 is blue)
+
+To edit the file just open in notepad or your favorite text editor and modify the number only. If you break the formatting it will kill the program, at the next restart
 
 Once you are done editing save the file, and then close and reopen Touch Portal, as tp_ohm.exe does not re-read this file every execution cycle (*because that would be silly... or would it.. maybe another time*)
 
-__*NOTE: Changing this is at your own risk. Your computer may not handle this as well as others, and it may cause higher than normal CPU usage if you are trying to update faster than every 2000 milliseconds.*__
 
 ## Troubleshooting
 
