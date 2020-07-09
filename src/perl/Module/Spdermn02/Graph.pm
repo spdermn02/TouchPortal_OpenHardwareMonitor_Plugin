@@ -4,6 +4,7 @@ use warnings;
 use POSIX qw(floor);
 use GD;
 use Spdermn02::Dashboard;
+our $dir;
 
 use constant {
     WIDTH  => 128,
@@ -40,9 +41,8 @@ sub bar_graph {
         my $x2 = $x1 + 1;
         my $y2 = 127;
 
-        #$image->rectangle( 126, 63, 127, 127 )
-        #print "$i $percentage image->rectangle( $x1, $y1, $x2, $y2 )\n";
-        $image->rectangle( $x1, $y1, $x2, $y2, $barColor );
+        #$image->rectangle( $x1, $y1, $x2, $y2, $barColor );
+        $image->line( $x1, $y1, $x1, $y2, $barColor );
         $cur--;
     }
 
@@ -57,7 +57,7 @@ sub gauge {
     my $value = shift;
 
     #my $dash = new GD::Dashboard( FNAME => '.\m1.png' );
-    my $dash = new Spdermn02::Dashboard( FNAME => '.\images\m2.png' );
+    my $dash = new Spdermn02::Dashboard( FNAME => $dir . '\images\m2.png' );
 
     my $g1 = new Spdermn02::Dashboard::Gauge(
         MIN => 0,
@@ -95,7 +95,7 @@ sub gauge {
 sub gauge_w_config {
     my ( $value, $min, $max, $color, $counterClockwise ) = @_;
 
-    my $dash = new Spdermn02::Dashboard( FNAME => '.\images\m2.png' );
+    my $dash = new Spdermn02::Dashboard( FNAME => $dir . '\images\m2.png' );
 
     my $g1 = new Spdermn02::Dashboard::Gauge(
         MIN => 0,
