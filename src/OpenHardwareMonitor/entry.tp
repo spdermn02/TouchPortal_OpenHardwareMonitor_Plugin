@@ -1,6 +1,6 @@
 {
   "sdk": 2,
-  "version": 3,
+  "version": 4,
   "name": "Touch Portal Open Hardware Monitor Interface",
   "id": "TPOpenHardwareMonitor",
   "plugin_start_cmd": "\"%TP_PLUGIN_FOLDER%OpenHardwareMonitor\\tp_ohm.exe\"",
