@@ -4,7 +4,6 @@ our $VERSION = '1.0.0';
 
 use Spdermn02::Logger qw( logIt );
 use Data::Dumper;
-use feature 'say';
 use IO::Async::Socket;
 use IO::Async::Loop;
 use Time::HiRes qw( usleep );
