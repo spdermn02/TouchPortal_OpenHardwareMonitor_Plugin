@@ -5,7 +5,8 @@ our $VERSION = '1.0.0';
 use Spdermn02::Logger qw( logIt );
 use Data::Dumper;
 use feature 'say';
-use IO::Socket::INET;
+use IO::Async::Socket;
+use IO::Async::Loop;
 use Time::HiRes qw( usleep );
 use JSON;
 
@@ -45,16 +46,31 @@ sub new {
 sub _connect {
     my $self = shift;
 
-    my $socket = new IO::Socket::INET(
-        PeerHost => $self->{'IP'},
-        PeerPort => $self->{'PORT'},
-        Proto    => 'tcp',
+    my $socket = IO::Async::Socket->new(
+      on_recv => sub {
+          my ( $self, $data, $addr ) = @_;
+ 
+          print "Received reply: $data\n",
+          return 1;
+          #$loop->stop;
+     },
+     on_send_error => sub {
+        my ( $self, $errno ) = @_;
+        die "Cannot send - $errno\n";
+     },
+     on_recv_error => sub {
+        my ( $self, $errno ) = @_;
+        die "Cannot recv - $errno\n";
+     },
+     autoflush: 1
     );
-
-    logIt( 'DEBUG', 'Set Nonblocking' );
-    #ioctl( $socket, 0x8004667e, 1 );
-    logIt( 'DEBUG', 'After Set Nonblocking' );
-    $socket->autoflush(1);
+    $loop->add( $socket );
+ 
+    $socket->connect(
+        host     => $self->{'IP'},
+        service  => $self->{'PORT'},
+        socktype => 'stream',
+    )->get;
 
     if ( !$socket ) {
         logIt( 'ERROR',
@@ -67,6 +83,8 @@ sub _connect {
     }
 
     $self->{'socket'} = $socket;
+ 
+    $loop->loop_forever; 
 }
 
 sub _send {
