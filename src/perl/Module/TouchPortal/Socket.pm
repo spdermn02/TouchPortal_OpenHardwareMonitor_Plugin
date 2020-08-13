@@ -1,11 +1,11 @@
 package TouchPortal::Socket;
 
-our $VERSION = '1.0.0';
+our $VERSION = '2.0.0';
 
 use Spdermn02::Logger qw( logIt );
 use Data::Dumper;
-use feature 'say';
-use IO::Socket::INET;
+use IO::Async::Stream;
+use IO::Async::Loop;
 use Time::HiRes qw( usleep );
 use JSON;
 
@@ -16,9 +16,14 @@ sub new {
     my $class   = shift;
     my $options = shift;
 
-    my $defaults = { 'IP' => '127.0.0.1', 'plugin_id' => undef };
+    my $defaults =
+      { 'IP' => '127.0.0.1', 'PORT' => 12136, 'plugin_id' => undef };
 
-    my $self = { %$defaults, %$options, 'socket' => undef, 'PORT' => '12136' };
+    my $self = {
+        %$defaults, %$options,
+        'socket' => undef,
+        'loop'   => undef
+    };
 
     $self->{'log'} = $self->{'run_dir'} . '\\' . $self->{'plugin_id'} . '.log';
 
@@ -29,44 +34,71 @@ sub new {
     logIt( 'DEBUG', 'We are pairing' );
     $self->_pair();
 
-    #my $pid = fork();
-#
-#    if ($pid) {
-#        logIt( 'DEBUG', 'We just forked: ' . $pid );
-#        $child = $pid;
-        return $self;
-#    }
-
-#    logIt( 'DEBUG', 'We just child: ' . $pid );
-#    $self->_recv();
-#    exit;
+    return $self;
 }
 
 sub _connect {
     my $self = shift;
 
-    my $socket = new IO::Socket::INET(
-        PeerHost => $self->{'IP'},
-        PeerPort => $self->{'PORT'},
-        Proto    => 'tcp',
+    my $loop   = IO::Async::Loop->new;
+    my $socket = $loop->connect(
+        host     => $self->{'IP'},
+        service  => $self->{'PORT'},
+        socktype => 'stream'
+    )->get;
+
+    my $stream = IO::Async::Stream->new(
+        autoflush => 1,
+        handle    => $socket,
+        on_read   => sub {
+            my ( $self, $buffref, $eof ) = @_;
+
+            while ( $$buffref =~ s/^(.*\n)// ) {
+                my $mess = $1;
+                logIt( 'INFO', "Received a line $1" );
+                chomp $mess;
+                my $data = undef;
+                eval { $data = decode_json($mess); };
+                if ($@) {
+                    logIt( 'ERROR', 'decode_json failed ' . $@ );
+                    exit 8;
+                }
+
+                if ( $data->{'type'} eq 'closePlugin' ) {
+                    logIt( 'SHUTDOWN',
+'TouchPortal told us to close, so we are following orders'
+                    );
+                    exit 9;
+                }
+
+            }
+
+            if ($eof) {
+                print "EOF; last partial line is $$buffref\n";
+            }
+
+            return 0;
+        },
+        on_write_error => sub {
+            my ( $self, $errno ) = @_;
+            logIt( 'ERROR', 'Cannot write - ' . $errno );
+            exit 7;
+        },
+        on_read_error => sub {
+            my ( $self, $errno ) = @_;
+            logIt( 'ERROR', 'Cannot read - ' . $errno );
+            exit 6;
+        },
+        on_closed => sub {
+            logIt( 'SHUTDOWN', 'We are closing' );
+            exit 5;
+        },
     );
 
-    logIt( 'DEBUG', 'Set Nonblocking' );
-    #ioctl( $socket, 0x8004667e, 1 );
-    logIt( 'DEBUG', 'After Set Nonblocking' );
-    $socket->autoflush(1);
+    $loop->add($stream);
 
-    if ( !$socket ) {
-        logIt( 'ERROR',
-                'Unable to establish the socket connection IP='
-              . $self->{'IP'}
-              . ' Port='
-              . $self->{'PORT'} );
-
-        exit 1;
-    }
-
-    $self->{'socket'} = $socket;
+    $self->{'socket'} = $stream;
+    $self->{'loop'}   = $loop;
 }
 
 sub _send {
@@ -82,7 +114,6 @@ sub _send {
 
     logIt( 'DEBUG', 'Sending: ' . $send_msg );
     my $rc = $self->_send_json($send_msg);
-    logIt( 'DEBUG', 'Returning: ' . $rc );
 
     return $rc;
 }
@@ -91,7 +122,7 @@ sub _send_json {
     my $self = shift;
     my ($send_msg) = @_;
 
-    my $rc = $self->{'socket'}->send( $send_msg . "\n" );
+    my $rc = $self->{'socket'}->write( $send_msg . "\n" );
 
     return $rc;
 }

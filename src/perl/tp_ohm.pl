@@ -1,7 +1,4 @@
 #!C:\Strawberry\bin\perl
-
-use lib "./Module";
-
 use Data::Dumper;
 
 use TouchPortal::Socket;
@@ -17,7 +14,7 @@ use Time::HiRes qw( usleep );
 
 # Auto appends /n on the end of message, alternate to print "msg \n";
 use feature 'say';
-our $VERSION = '2';
+our $VERSION = '5';
 
 our $dir = dirname( abs_path($0) );
 
@@ -26,6 +23,8 @@ open $debugLog, '>', $dir . '\tp_ohm.log';
 select $debugLog;
 ## Auto flush prints
 $| = 1;
+
+print Dumper(@INC);
 
 use constant {
     SEC_OF_DAY => 60 * 60 * 24,
@@ -86,13 +85,13 @@ sub main {
         return 0;
     }
 
+    my $irc = $socket->state_update( 'tpohm_connected', 'Yes' );
+    logIt( 'START', "Checking to see if we are connected" );
+
     #sit here and wait for stuff
     while (1) {
-        my $irc = $socket->state_update( 'tpohm_connected', 'Yes' );
-        logIt( 'START',
-            "Checking to see if we are connected, bytes sent to TP = $irc" );
 
-        if ( !defined $irc || !$socket->{'socket'}->connected() ) {
+        if ( !defined $irc ) {    #|| !$socket->{'socket'}->connected() ) {
             logIt( 'WARN', 'Socket Disconnecting, ending infinite loop' );
             last;
         }
@@ -104,12 +103,7 @@ sub main {
         }
 
         usleep $updateInterval;
-    }
-
-    # If we get here and we are still connected,
-    # send update we are no longer going to be connected
-    if ( $socket->{'socket'}->connected() ) {
-        my $irc = $socket->state_update( 'tpohm_connected', 'No' );
+        $socket->{loop}->loop_once(1);
     }
 
     logIt( 'SHUTDOWN', 'tp_ohm is shutting down' );
@@ -220,7 +214,7 @@ sub process_sensor {
         if ( $id->{type} eq "value" ) {
             if ( $curValue eq $prevValue ) {
                 logIt(
-                    'INFO',
+                    'DEBUG',
                     sprintf(
 "Value - Sensor %s value has not changed from %s will not send update for value",
                         $name, $prevValue
@@ -235,7 +229,7 @@ sub process_sensor {
         elsif ( $id->{type} eq "threshold" ) {
             if ( $curValue eq $prevValue ) {
                 logIt(
-                    'INFO',
+                    'DEBUG',
                     sprintf(
 "Threshold - Sensor %s value has not changed from %s will not send update for threshold",
                         $name, $prevValue
@@ -271,7 +265,7 @@ sub process_sensor {
         elsif ( $id->{type} eq "gauge" ) {
             if ( $curValue eq $prevValue ) {
                 logIt(
-                    'INFO',
+                    'DEBUG',
                     sprintf(
 "Gauge - Sensor %s value has not changed from %s will not send update for gauge",
                         $name, $prevValue
@@ -303,7 +297,7 @@ sub _normalize_name_by_type {
         }
     }
     if ( $origName ne $name ) {
-        logIt( 'INFO', "Normaling name from $origName to $name" );
+        logIt( 'INFO', "Normalizing name from $origName to $name" );
     }
 
     return $name;
