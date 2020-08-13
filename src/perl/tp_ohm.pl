@@ -1,7 +1,4 @@
 #!C:\Strawberry\bin\perl
-
-use lib "./Module";
-
 use Data::Dumper;
 
 use TouchPortal::Socket;
@@ -26,6 +23,8 @@ open $debugLog, '>', $dir . '\tp_ohm.log';
 select $debugLog;
 ## Auto flush prints
 $| = 1;
+
+print Dumper(@INC);
 
 use constant {
     SEC_OF_DAY => 60 * 60 * 24,

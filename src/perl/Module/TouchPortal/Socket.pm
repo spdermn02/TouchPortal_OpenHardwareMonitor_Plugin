@@ -16,7 +16,8 @@ sub new {
     my $class   = shift;
     my $options = shift;
 
-    my $defaults = { 'IP' => '127.0.0.1', 'PORT' => 12136, 'plugin_id' => undef };
+    my $defaults =
+      { 'IP' => '127.0.0.1', 'PORT' => 12136, 'plugin_id' => undef };
 
     my $self = {
         %$defaults, %$options,
@@ -39,17 +40,17 @@ sub new {
 sub _connect {
     my $self = shift;
 
-    my $loop   = IO::Async::Loop->new;
+    my $loop   = new IO::Async::Loop();
     my $socket = $loop->connect(
-        host      => $self->{'IP'},
-        service   => $self->{'PORT'},
-        socktype  => 'stream'
+        host     => $self->{'IP'},
+        service  => $self->{'PORT'},
+        socktype => 'stream'
     )->get;
 
     my $stream = IO::Async::Stream->new(
         autoflush => 1,
-        handle  => $socket,
-        on_read => sub {
+        handle    => $socket,
+        on_read   => sub {
             my ( $self, $buffref, $eof ) = @_;
 
             while ( $$buffref =~ s/^(.*\n)// ) {
