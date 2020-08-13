@@ -1,5 +1,3 @@
-
---link libwinpthread-1.dll
 --link libstdc++-6.dll
 --link libssp-0.dll
 --link libquadmath-0.dll

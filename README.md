@@ -28,6 +28,7 @@ TouchPortal Plugin to Utilize Statistics from Open Hardware Monitor - for Window
   - [Troubleshooting](#troubleshooting)
   - [Notes](#notes)
   - [Built With](#built-with)
+  - [Build It](#build-it)
   - [Versioning](#versioning)
   - [Authors](#authors)
   - [License](#license)
@@ -389,7 +390,14 @@ _INFO: more notes will be added here as we have to troubleshoot_
 - [StrawberryPerl](http://strawberryperl.com/) - Coding Language
 - [PAR::Packaging](https://metacpan.org/pod/pp) - EXE Packaging Utility
 - [Win32::OLE](https://metacpan.org/pod/Win32::OLE) - Used to access the WMI information
-- [ActualInstaller(free)](https://www.actualinstaller.com/?vid=7.6) - Used to package program into installer and support Updating
+
+## Build It
+
+Building reqiures Par::Packaging (pp) for Perl - and to be located in the src/perl directory of the project
+
+```shell
+pp @libs.txt tp_ohm.pl -p tp_ohm.exe
+```
 
 ## Versioning
 
