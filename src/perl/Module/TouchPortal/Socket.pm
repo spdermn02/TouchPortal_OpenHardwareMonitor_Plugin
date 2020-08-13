@@ -40,7 +40,7 @@ sub new {
 sub _connect {
     my $self = shift;
 
-    my $loop   = new IO::Async::Loop();
+    my $loop   = IO::Async::Loop->new;
     my $socket = $loop->connect(
         host     => $self->{'IP'},
         service  => $self->{'PORT'},
