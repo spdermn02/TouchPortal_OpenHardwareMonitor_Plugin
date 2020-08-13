@@ -23,8 +23,9 @@ TouchPortal Plugin to Utilize Statistics from Open Hardware Monitor - for Window
   - [Prerequisites](#prerequisites)
   - [Installing](#installing)
   - [Updating](#updating)
+    - [** Note for v5 **](#-note-for-v5-)
+    - [Pre-v5 upgrade to v5](#pre-v5-upgrade-to-v5)
   - [Configuration](#configuration)
-      - [**+UPDATE for v4+**](#update-for-v4)
   - [Troubleshooting](#troubleshooting)
   - [Notes](#notes)
   - [Built With](#built-with)
@@ -299,6 +300,13 @@ _**NOTE**_: Default install path is dictated by Touch Portal, for newer users it
 
 ## Updating
 
+### ** Note for v5 ** 
+These steps will no longer be necessary after getting to version 5, the plugin will now respond to TouchPortal's Close command on shutdown of TouchPortal, loading of an updated plugin .tpp, as well as when using the Stop button in the Settings->Plugins
+You will just be able to import a new plugin without worrying about manually stopping it
+
+### Pre-v5 upgrade to v5
+For previous versions to v5 you will still have to follow these instructions
+
 When an update is put out, please follow these instructions to install
 
 **Step 1** Open Windows Task Manager
@@ -314,7 +322,6 @@ When an update is put out, please follow these instructions to install
 **Step 4** to to Step 3 of the install guide and load the plugin
 
 ## Configuration
-#### **+UPDATE for v4+**
 The config file is in the plugins\OpenHardwareMonitor folder and it is called tp_ohm.cfg. It is a JSON formatted file. 
 
 The file looks like below, and the value is in milliseconds. So by default, the update Interval is every 2000 milliseconds, or 2 seconds.  

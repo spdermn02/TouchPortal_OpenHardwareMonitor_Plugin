@@ -37,3 +37,10 @@
 --link libidn2-0__.dll
 --link libffi-7__.dll
 --link libglut-0__.dll
+-M IO::Async::OS::MSWin32
+-M IO::Async::Loop::Select
+-M IO::Async::Loop::Poll
+-M Metrics::Any::Adapter::Null
+-M IO::Async::Internals::ChildManager
+-M IO::Async::Internals::Connector
+-M IO::Async::Internals::TimeQueue
