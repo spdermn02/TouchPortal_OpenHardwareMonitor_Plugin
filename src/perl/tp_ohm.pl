@@ -357,7 +357,12 @@ sub load_sensor_config {
                             { threshold => 85, value => "High" },
                             { threshold => 40, value => "Medium" }
                         ]
-                    }
+                    },
+                    {
+                        id   => 'tpohm_memory_load_graph',
+                        type => 'bar_graph'
+                    },
+                    { id => 'tpohm_memory_load_gauge', type => 'gauge' }
 
                 ]
             },
@@ -456,7 +461,12 @@ sub load_sensor_config {
                             { threshold => 85, value => "High" },
                             { threshold => 40, value => "Medium" }
                         ]
-                    }
+                    },
+                    {
+                        id   => 'tpohm_gpu_memory_load_graph',
+                        type => 'bar_graph'
+                    },
+                    { id => 'tpohm_gpu_memory_load_gauge', type => 'gauge' }
                 ]
             }
         },
@@ -551,6 +561,11 @@ sub load_sensor_config {
                             { threshold => 45, value => "Medium" }
                         ]
                     },
+                    {
+                        id   => 'tpohm_cpu_package_temp_graph',
+                        type => 'bar_graph'
+                    },
+                    { id => 'tpohm_cpu_package_temp_gauge', type => 'gauge' }
                 ]
             },
             'GPU Core' => {
@@ -565,6 +580,11 @@ sub load_sensor_config {
                             { threshold => 40, value => "Medium" }
                         ]
                     },
+                    {
+                        id   => 'tpohm_gpu_core_temp_graph',
+                        type => 'bar_graph'
+                    },
+                    { id => 'tpohm_gpu_core_temp_gauge', type => 'gauge' }
                 ]
             },
 

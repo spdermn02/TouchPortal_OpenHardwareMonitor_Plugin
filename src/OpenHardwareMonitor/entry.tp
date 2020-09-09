@@ -64,6 +64,18 @@
           "valueChoices": ["Low", "Medium", "High"]
         },
         {
+          "id": "tpohm_memory_load_graph",
+          "type": "text",
+          "desc": "TP OHM Memory Load Graph",
+          "default": "",
+        },
+        {
+          "id": "tpohm_memory_load_gauge",
+          "type": "text",
+          "desc": "TP OHM Memory Load Gauge",
+          "default": "",
+        },
+        {
           "id": "tpohm_gpu_core_load_val",
           "type": "choice",
           "desc": "TP OHM GPU Core Load Value",
@@ -104,6 +116,18 @@
           "valueChoices": ["Low", "Medium", "High"]
         },
         {
+          "id": "tpohm_gpu_memory_load_graph",
+          "type": "text",
+          "desc": "TP OHM GPU Memory Load Graph",
+          "default": "",
+        },
+        {
+          "id": "tpohm_gpu_memory_load_gauge",
+          "type": "text",
+          "desc": "TP OHM GPU Memory Load Gauge",
+          "default": "",
+        },
+        {
           "id": "tpohm_gpu_core_clock_val",
           "type": "choice",
           "desc": "TP OHM GPU Core Clock Value",
@@ -139,6 +163,18 @@
           "valueChoices": ["Low", "Medium", "High"]
         },
         {
+          "id": "tpohm_cpu_package_temp_graph",
+          "type": "text",
+          "desc": "TP OHM CPU Package Temperature Graph",
+          "default": "",
+        },
+        {
+          "id": "tpohm_cpu_package_temp_gauge",
+          "type": "text",
+          "desc": "TP OHM CPU Package Temperature Gauge",
+          "default": "",
+        },
+        {
           "id": "tpohm_gpu_core_temp_val",
           "type": "choice",
           "desc": "TP OHM GPU Core Temp Value - Celsius",
@@ -151,6 +187,18 @@
           "desc": "TP OHM GPU Core Temperature Status",
           "default": "Low",
           "valueChoices": ["Low", "Medium", "High"]
+        },
+        {
+          "id": "tpohm_gpu_core_temp_graph",
+          "type": "text",
+          "desc": "TP OHM GPU Core Temperature Graph",
+          "default": "",
+        },
+        {
+          "id": "tpohm_gpu_core_temp_gauge",
+          "type": "text",
+          "desc": "TP OHM GPU Core Temperature Gauge",
+          "default": "",
         },
         {
           "id": "tpohm_gpu_memory_temp_val",
