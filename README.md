@@ -258,7 +258,7 @@ If you don't use Touch Portal - how dare you, you should!
 ## Prerequisites
 
 Download and run Open Hardware Monitor - you can find it here: https://openhardwaremonitor.org/
-Current tested version is 0.9.2
+Current tested version is 0.9.5
 
 Location of where it is downloaded and run from do not matter, as long as it is running and writing sensor data it can run from anywhere on the computer.
 
