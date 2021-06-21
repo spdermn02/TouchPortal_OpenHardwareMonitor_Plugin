@@ -305,14 +305,28 @@ _INFO: more notes will be added here as we have to troubleshoot_
 
 Building reqiures Par::Packaging (pp) for Perl - and to be located in the src/perl directory of the project
 
+put the below all into a build.bat script that handles this all it is in the root directory (no more remembering for me!)
+
 ```shell
+@ECHO OFF
+
 cd src\perl
-pp @libs.txt tp_ohm.pl -o tp_ohm.exe
+
+start "Build Perl" cmd /c pp @libs.txt tp_ohm.pl -o tp_ohm.exe
+
+:loop
+ping -n 2 localhost >nul 2>nul
+tasklist /fi "WINDOWTITLE eq Build Perl" | findstr "cmd" >nul 2>nul && set Child1=1 || set Child1=
+if not defined Child1 goto endloop
+goto loop
+:endloop
+
 move tp_ohm.exe ..\OpenHardwareMonitor\tp_ohm.exe
 cd ..
 del ..\installer\OpenHardwareMonitor.tpp
 7z a -tzip ..\installer\OpenHardwareMonitor.tpp OpenHardwareMonitor
 del OpenHardwareMonitor\tp_ohm.exe
+
 ```
 
 ## Versioning
