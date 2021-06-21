@@ -1,7 +1,10 @@
+# **v6.0.0 is Experimental, pushed to master by accident.  just FYI if you try this and it breaks.. it's stil under development, stable is v5**
+
 # Touch Portal Plugin for Open Hardware Monitor
 
 TouchPortal Plugin to Utilize Statistics from Open Hardware Monitor - for Windows
 
+- [**v6.0.0 is Experimental, pushed to master by accident.  just FYI if you try this and it breaks.. it's stil under development, stable is v5**](#v600-is-experimental-pushed-to-master-by-accident--just-fyi-if-you-try-this-and-it-breaks-its-stil-under-development-stable-is-v5)
 - [Touch Portal Plugin for Open Hardware Monitor](#touch-portal-plugin-for-open-hardware-monitor)
   - [Current Sensors and Values Available](#current-sensors-and-values-available)
         - [Data Types](#data-types)
