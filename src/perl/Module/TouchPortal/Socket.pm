@@ -16,8 +16,12 @@ sub new {
     my $class   = shift;
     my $options = shift;
 
-    my $defaults =
-      { 'IP' => '127.0.0.1', 'PORT' => 12136, 'plugin_id' => undef };
+    my $defaults = {
+        'IP'          => '127.0.0.1',
+        'PORT'        => 12136,
+        'plugin_id'   => undef,
+        'recvHandler' => sub() { return 0; }
+    };
 
     my $self = {
         %$defaults, %$options,
@@ -38,7 +42,8 @@ sub new {
 }
 
 sub _connect {
-    my $self = shift;
+    my $self     = shift;
+    my $mainSelf = $self;
 
     my $loop   = IO::Async::Loop->new;
     my $socket = $loop->connect(
@@ -69,6 +74,9 @@ sub _connect {
 'TouchPortal told us to close, so we are following orders'
                     );
                     exit 9;
+                }
+                else {
+                    &{ $mainSelf->{'recvHandler'} }($data);
                 }
 
             }

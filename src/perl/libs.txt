@@ -44,3 +44,8 @@
 -M IO::Async::Internals::ChildManager
 -M IO::Async::Internals::Connector
 -M IO::Async::Internals::TimeQueue
+-I Module
+-M TouchPortal::Socket
+-M Spdermn02::Dashboard
+-M Spdermn02::Graph
+-M Spdermn02::Logger

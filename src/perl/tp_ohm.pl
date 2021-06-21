@@ -14,7 +14,7 @@ use Time::HiRes qw( usleep );
 
 # Auto appends /n on the end of message, alternate to print "msg \n";
 use feature 'say';
-our $VERSION = '5';
+our $VERSION = '6.0.0';
 
 our $dir = dirname( abs_path($0) );
 
@@ -24,7 +24,7 @@ select $debugLog;
 ## Auto flush prints
 $| = 1;
 
-print Dumper(@INC);
+#print Dumper(@INC);
 
 use constant {
     SEC_OF_DAY => 60 * 60 * 24,
@@ -32,6 +32,7 @@ use constant {
     DEFAULT_INTERVAL => 2000,    #Default of 2000 ms for loop interval
 
     MILLI_to_MICRO => 1000,
+    ONE_THOUSAND   => 1000,
 
     ID   => 'TPOpenHardwareMonitor',
     HOST => 'localhost',
@@ -41,27 +42,11 @@ use constant {
 use constant wbemFlagReturnImmediately => 0x10;
 use constant wbemFlagForwardOnly       => 0x20;
 
-our $configFile = $dir . '\tp_ohm.cfg';
-our $cfg        = {};
-if ( open( my $jcfg, '<', $configFile ) ) {
-    my $json = '';
-    while (<$jcfg>) { $json .= $_; }
-    close $jcfg;
-    chomp $json;
-    eval { $cfg = decode_json($json); } or do {
-        logIt( 'FATAL', "Unable to parse json data from $configFile rc=" . $@ );
-        exit 9;
-    };
-}
-else {
-    logIt( 'ERROR', "unable to read $configFile will use defaults" );
-}
-
 our ( $socket, $WMI );
-our $updateInterval = $cfg->{updateInterval} // DEFAULT_INTERVAL;
 
 #convert for use in usleep of microseconds
-$updateInterval = $updateInterval * MILLI_to_MICRO;
+our $updateInterval = DEFAULT_INTERVAL * MILLI_to_MICRO;
+
 our %sensor_config = load_sensor_config();
 our $time          = time;
 
@@ -69,17 +54,170 @@ main();
 
 exit 0;
 
+sub recvHandler {
+    my $data = shift;
+
+    logIt( 'DEBUG', 'we received a message' . Dumper($data) );
+
+    if ( $data->{type} eq 'settings' ) {
+        processSettings( $data->{values} );
+        return 1;
+    }
+    if ( $data->{type} eq 'info' ) {
+        processSettings( $data->{settings} );
+        run();
+        return 1;
+    }
+
+    return 0;
+}
+
+sub processSettings {
+    my $settings = shift;
+    foreach my $setting ( @{$settings} ) {
+        logIt( 'DEBUG', 'Processing setting ' . Dumper($setting) );
+        if ( defined $setting->{'Update Interval In Seconds'} ) {
+            $updateInterval =
+              $setting->{'Update Interval In Seconds'} *
+              ONE_THOUSAND *
+              MILLI_to_MICRO;
+            next;
+        }
+
+        # Bar Graph Colors
+        if ( defined $setting->{'CPU 1 Load Bar Graph Color'} ) {
+            _processColor( $sensor_config{'Load'}->{'CPU Total'}->{'ids'}->[2],
+                'barGraphColor', $setting->{'CPU 1 Load Bar Graph Color'} );
+            next;
+        }
+        if ( defined $setting->{'Memory Load Bar Graph Color'} ) {
+            _processColor( $sensor_config{'Load'}->{'Memory'}->{'ids'}->[2],
+                'barGraphColor', $setting->{'Memory Load Bar Graph Color'} );
+            next;
+        }
+        if ( defined $setting->{'GPU Core Load Bar Graph Color'} ) {
+            _processColor( $sensor_config{'Load'}->{'GPU Core'}->{'ids'}->[2],
+                'barGraphColor', $setting->{'GPU Core Load Bar Graph Color'} );
+            next;
+        }
+
+        # Gauge Needle Colors
+        if ( defined $setting->{'CPU 1 Load Gauge Needle Color'} ) {
+            _processColor( $sensor_config{'Load'}->{'CPU Total'}->{'ids'}->[3],
+                'needleColor', $setting->{'CPU 1 Load Gauge Needle Color'} );
+            next;
+        }
+        if ( defined $setting->{'Memory Load Gauge Needle Color'} ) {
+            _processColor( $sensor_config{'Load'}->{'Memory'}->{'ids'}->[3],
+                'needleColor', $setting->{'Memory Load Gauge Needle Color'} );
+            next;
+        }
+        if ( defined $setting->{'GPU Core Load Gauge Needle Color'} ) {
+            _processColor( $sensor_config{'Load'}->{'GPU Core'}->{'ids'}->[3],
+                'needleColor', $setting->{'GPU Core Load Gauge Needle Color'} );
+            next;
+        }
+
+        # Thresholds
+        if ( defined $setting->{'CPU 1 Load Thresholds'} ) {
+            _thresholdProcessor(
+                $sensor_config{'Load'}->{'CPU Total'}->{'ids'}->[1],
+                $setting->{'CPU 1 Load Thresholds'} );
+            next;
+        }
+        if ( defined $setting->{'CPU 1 Temp Thresholds'} ) {
+            _thresholdProcessor(
+                $sensor_config{'Temperature'}->{'CPU Package'}->{'ids'}->[1],
+                $setting->{'CPU 1 Temp Thresholds'} );
+            next;
+        }
+        if ( defined $setting->{'Memory Load Thresholds'} ) {
+            _thresholdProcessor(
+                $sensor_config{'Load'}->{'Memory'}->{'ids'}->[1],
+                $setting->{'Memory Load Thresholds'} );
+            next;
+        }
+        if ( defined $setting->{'GPU Load Thresholds'} ) {
+            _thresholdProcessor(
+                $sensor_config{'Load'}->{'GPU Core'}->{'ids'}->[1],
+                $setting->{'GPU Load Thresholds'} );
+            next;
+        }
+        if ( defined $setting->{'GPU Load Thresholds'} ) {
+            _thresholdProcessor(
+                $sensor_config{'Load'}->{'GPU Memory'}->{'ids'}->[1],
+                $setting->{'GPU Load Thresholds'} );
+            next;
+        }
+        if ( defined $setting->{'GPU Temp Thresholds'} ) {
+            _thresholdProcessor(
+                $sensor_config{'Temperature'}->{'GPU Core'}->{'ids'}->[1],
+                $setting->{'GPU Temp Thresholds'} );
+            next;
+        }
+        if ( defined $setting->{'GPU Mem Temp Thresholds'} ) {
+            _thresholdProcessor(
+                $sensor_config{'Temperature'}->{'GPU Memory'}->{'ids'}->[1],
+                $setting->{'GPU Mem Temp Thresholds'} );
+            next;
+        }
+    }
+
+    return 0;
+}
+
+sub _processColor {
+    my ( $sensor, $cfgKey, $color ) = @_;
+
+    my @rgb = map $_, unpack 'C*', pack 'H*', $color;
+
+    $sensor->{cfg}->{$cfgKey} = \@rgb;
+
+    print STDERR Dumper($sensor);
+
+    return 0;
+}
+
+sub _thresholdProcessor {
+    my ( $sensor, $thresholds ) = @_;
+
+    my @newThresholds = ();
+
+    my @thresholdAry = split( /\|/, $thresholds );
+    foreach my $th (@thresholdAry) {
+        my ( $value, $threshold ) = split( /\=/, $th );
+        if ( $threshold eq 'default' ) {
+            $sensor->{'default'} = $value;
+            next;
+        }
+        push @newThresholds, { 'threshold' => $threshold, 'value' => $value };
+    }
+
+    $sensor->{'thresholds'} = \@newThresholds;
+
+    return 0;
+}
+
 sub main {
 
     logIt( 'START', 'tp_ohm is starting up, and about to connect' );
 
-    $socket =
-      new TouchPortal::Socket( { 'run_dir' => $dir, 'plugin_id' => ID } );
+    $socket = new TouchPortal::Socket(
+        {
+            'run_dir'     => $dir,
+            'plugin_id'   => ID,
+            'recvHandler' => \&recvHandler
+        }
+    );
     if ( !$socket ) {
         logIt( 'FATAL', 'Cannot create socket connection : $!' );
         return 0;
     }
 
+    $socket->{loop}->loop_once(1);
+}
+
+sub run {
     if ( !connect_wmi() ) {
         logIt( 'FATAL', 'Unable to connect to WMI...' );
         return 0;
@@ -103,15 +241,12 @@ sub main {
         }
 
         usleep $updateInterval;
-        $socket->{loop}->loop_once(1);
     }
 
     logIt( 'SHUTDOWN', 'tp_ohm is shutting down' );
 
     return 1;
 }
-
-exit;
 
 sub connect_wmi {
     $WMI =
@@ -254,7 +389,7 @@ sub process_sensor {
             }
             push @$vals, sprintf( "%.1f", $value );
 
-            my $img = bar_graph( $cfg, $vals );
+            my $img = bar_graph( $id->{cfg}, $vals );
             chomp($img);
 
             my $imgB64 = encode_base64( $img, '' );
@@ -273,7 +408,7 @@ sub process_sensor {
                 );
                 next;
             }
-            my $img = gauge( $cfg, sprintf( "%.1f", $value ) );
+            my $img = gauge( $id->{cfg}, sprintf( "%.1f", $value ) );
             chomp($img);
 
             my $imgB64 = encode_base64( $img, '' );
@@ -334,9 +469,14 @@ sub load_sensor_config {
                     },
                     {
                         id   => 'tpohm_cpu_total_load_graph',
-                        type => 'bar_graph'
+                        type => 'bar_graph',
+                        cfg  => { 'barGraphColor' => [ 0, 0, 255 ] }
                     },
-                    { id => 'tpohm_cpu_total_load_gauge', type => 'gauge' }
+                    {
+                        id   => 'tpohm_cpu_total_load_gauge',
+                        type => 'gauge',
+                        cfg  => { 'needleColor' => [ 0, 0, 255 ] }
+                    }
                 ],
                 values => []
             },
@@ -351,9 +491,19 @@ sub load_sensor_config {
                             { threshold => 85, value => "High" },
                             { threshold => 40, value => "Medium" }
                         ]
+                    },
+                    {
+                        id   => 'tpohm_memory_load_graph',
+                        type => 'bar_graph',
+                        cfg  => { 'barGraphColor' => [ 0, 0, 255 ] }
+                    },
+                    {
+                        id   => 'tpohm_memory_load_gauge',
+                        type => 'gauge',
+                        cfg  => { 'needleColor' => [ 0, 0, 255 ] }
                     }
-
-                ]
+                ],
+                values => []
             },
             'CPU Core #1' => {
                 ids =>
@@ -433,9 +583,14 @@ sub load_sensor_config {
                     },
                     {
                         id   => 'tpohm_gpu_core_load_graph',
-                        type => 'bar_graph'
+                        type => 'bar_graph',
+                        cfg  => { 'barGraphColor' => [ 0, 0, 255 ] }
                     },
-                    { id => 'tpohm_gpu_core_load_gauge', type => 'gauge' }
+                    {
+                        id   => 'tpohm_gpu_core_load_gauge',
+                        type => 'gauge',
+                        cfg  => { 'needleColor' => [ 0, 0, 255 ] }
+                    }
                 ],
                 values => []
             },

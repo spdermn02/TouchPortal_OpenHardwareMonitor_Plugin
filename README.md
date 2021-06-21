@@ -12,20 +12,12 @@ TouchPortal Plugin to Utilize Statistics from Open Hardware Monitor - for Window
   - [Sample Page](#sample-page)
   - [Sample Buttons for Bargraphs and Gauges ++New in v4](#sample-buttons-for-bargraphs-and-gauges-new-in-v4)
   - [Events](#events)
-    - [CPU Total Load Status](#cpu-total-load-status)
-    - [Memory Load Status](#memory-load-status)
-    - [CPU Package Temperature Status](#cpu-package-temperature-status)
-    - [GPU Core Load Status](#gpu-core-load-status)
-    - [GPU Memory Load Status](#gpu-memory-load-status)
-    - [GPU Core Temperature Status](#gpu-core-temperature-status)
-    - [GPU Memory Temperature Status](#gpu-memory-temperature-status)
   - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installing](#installing)
   - [Updating](#updating)
-    - [** Note for v5 **](#-note-for-v5-)
-    - [Pre-v5 upgrade to v5](#pre-v5-upgrade-to-v5)
-  - [Configuration](#configuration)
+    - [** Note for v6 **](#-note-for-v6-)
+  - [Settings](#settings)
   - [Troubleshooting](#troubleshooting)
   - [Notes](#notes)
   - [Built With](#built-with)
@@ -191,63 +183,11 @@ GPU Load Bargraph - import this button: [TP OHM GPU Load Bargraph Button](resour
 
 ## Events
 
-### CPU Total Load Status
+Events have been removed in favor of "When plugin state changes" event built into Touch Portal
+With the customization of settings, those have become irrelevant.
 
-This event is triggered off the state id `tpohm_cpu_total_load_status`
-
-Example:
-
-![TP OHM CPU Total Status](images/tp_ohm_cpu_total_status_event.png)
-
-### Memory Load Status
-
-This event is triggered off the state id `tpohm_memory_load_status`
-
-Example:
-
-![TP OHM Memory Status](images/tp_ohm_memory_status_event.png)
-
-### CPU Package Temperature Status
-
-This event is triggered off the state id `tpohm_cpu_package_temp_status`
-
-Example:
-
-![TP OHM CPU Temperature Status](images/tp_ohm_cpu_temperature_status_event.png)
-
-### GPU Core Load Status
-
-This event is triggered off the state id `tpohm_gpu_core_load_status`
-
-Example:
-
-![TP OHM GPU Core Load Status](images/tp_ohm_gpu_core_load_status_event.png)
-
-### GPU Memory Load Status
-
-This event is triggered off the state id `tpohm_gpu_memory_load_status`
-
-Example:
-
-![TP OHM GPU Memory Load Status](images/tp_ohm_gpu_memory_load_status_event.png)
-
-### GPU Core Temperature Status
-
-This event is triggered off the state id `tpohm_gpu_core_temp_status`
-
-Example:
-
-![TP OHM GPU Temperature Status](images/tp_ohm_gpu_temperature_status_event.png)
-
-### GPU Memory Temperature Status
-
-This event is triggered off the state id `tpohm_gpu_memory_temp_status`
-
-NOTE: This may be AMD GPU only
-
-Example:
-
-![TP OHM GPU Memory Temperature Status](images/tp_ohm_gpu_memory_temperature_status_event.png)
+Any of your buttons that work with them should be converted to use "When plugin state changes" events and 
+the subsequent configured values that are defaulted, or set by you in the new Settings
 
 ## Getting Started
 
@@ -300,52 +240,15 @@ _**NOTE**_: Default install path is dictated by Touch Portal, for newer users it
 
 ## Updating
 
-### ** Note for v5 ** 
-These steps will no longer be necessary after getting to version 5, the plugin will now respond to TouchPortal's Close command on shutdown of TouchPortal, loading of an updated plugin .tpp, as well as when using the Stop button in the Settings->Plugins
-You will just be able to import a new plugin without worrying about manually stopping it
+### ** Note for v6 ** 
+As noted in the [Events](#events) section, all events have been removed in favor of "When plug-in state changes" event. 
+New settings have been put in place to allow for user configuration of the thresholds and cut off ranges. 
+see the [Settings](#settings) section for more details
 
-### Pre-v5 upgrade to v5
-For previous versions to v5 you will still have to follow these instructions
-
-When an update is put out, please follow these instructions to install
-
-**Step 1** Open Windows Task Manager
-
-**Step 2** Locate tp_ohm.exe running (you may see 2 listed but only 1 is actually running) and end the task, kill the one that actually is consuming CPU the one with the camel icon in the picture)
-
-![TP OHM Exe Task Manager](images/tp_ohmexe_task_manager.png)
-
-**NOTE**: If you don't see it running under Java like above, scroll down in your task manager to find it by itself
-
-**Step 3** Download the newest .tpp from the install directory
-
-**Step 4** to to Step 3 of the install guide and load the plugin
-
-## Configuration
-The config file is in the plugins\OpenHardwareMonitor folder and it is called tp_ohm.cfg. It is a JSON formatted file. 
-
-The file looks like below, and the value is in milliseconds. So by default, the update Interval is every 2000 milliseconds, or 2 seconds.  
-
-```json
-{
-    "updateInterval": "2000",
-    "needleColor":[0,0,255],
-    "barGraphColor": [0,0,255]
-}
-```
-
-**Configuration Options**
-
-* updateInterval - how often (in ms) do you want updates sent to TouchPortal.  Realistically every 2 seconds is fine, older mobile devices may not handle the updates to a page well that often, so I suggest lowest is 2000, and raise that if your mobile device is having issue rendering the data. 
-    * __*NOTE: Changing this is at your own risk. Your computer may not handle this as well as others, and it may cause higher than normal CPU usage if you are trying to update faster than every 2000 milliseconds.*__
-
-* needleColor - the needle color of the gauge icon that is rendered. this is [ R, G, B ] format - so find the color you want, find the RGB value, and put each value in the correct position here. (default: 0,0,255 is blue)
-
-* barGraphColor - the bar graph line color that is rendered. this is [ R, G, B ] format - so find the color you want, find the RGB value, and put each value in the correct position here. (default: 0,0,255 is blue)
-
-To edit the file just open in notepad or your favorite text editor and modify the number only. If you break the formatting it will kill the program, at the next restart
-
-Once you are done editing save the file, and then close and reopen Touch Portal, as tp_ohm.exe does not re-read this file every execution cycle (*because that would be silly... or would it.. maybe another time*)
+## Settings
+Configuration has moved to use the Touch Portal settings section instead of it's own config file.
+The new settings will allow for better customization of the threshold levels, and wording
+and also be able to configure gauges and bargraphs independently from each other.
 
 
 ## Troubleshooting
@@ -403,7 +306,13 @@ _INFO: more notes will be added here as we have to troubleshoot_
 Building reqiures Par::Packaging (pp) for Perl - and to be located in the src/perl directory of the project
 
 ```shell
-pp @libs.txt tp_ohm.pl -p tp_ohm.exe
+cd src\perl
+pp @libs.txt tp_ohm.pl -o tp_ohm.exe
+move tp_ohm.exe ..\OpenHardwareMonitor\tp_ohm.exe
+cd ..
+del ..\installer\OpenHardwareMonitor.tpp
+7z a -tzip ..\installer\OpenHardwareMonitor.tpp OpenHardwareMonitor
+del OpenHardwareMonitor\tp_ohm.exe
 ```
 
 ## Versioning
