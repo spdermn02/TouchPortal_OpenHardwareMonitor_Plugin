@@ -215,7 +215,7 @@ _**NOTE**_: Default install path is dictated by Touch Portal, for newer users it
 
 **Step 1** Make sure you have Open Hardware Monitor installed - go to Prequisites if you did not install it
 
-**Step 2** Download the Touch Portal Plugin [TP_OHM_Plugin.tpp](installer/OpenHardwareMonitor.tpp) file from the github repo installer folder. This contains everything needed for TouchPortal and the Plugin
+**Step 2** Download the Touch Portal Plugin [OpenHardwareMonitor.tpp](installer/OpenHardwareMonitor.tpp) file from the github repo installer folder. This contains everything needed for TouchPortal and the Plugin
 
 **Step 3** Open Touch Portal GUI, go to the Wrench, and chose "Import plug-in"
 
