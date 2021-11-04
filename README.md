@@ -6,6 +6,7 @@ TouchPortal Plugin to Utilize Statistics from Open Hardware Monitor - for Window
 
 - [**v6.0.0 is Experimental, pushed to master by accident.  just FYI if you try this and it breaks.. it's stil under development, stable is v5**](#v600-is-experimental-pushed-to-master-by-accident--just-fyi-if-you-try-this-and-it-breaks-its-stil-under-development-stable-is-v5)
 - [Touch Portal Plugin for Open Hardware Monitor](#touch-portal-plugin-for-open-hardware-monitor)
+  - [Changelog](#changelog)
   - [Current Sensors and Values Available](#current-sensors-and-values-available)
         - [Data Types](#data-types)
       - [CPU](#cpu)
@@ -29,6 +30,16 @@ TouchPortal Plugin to Utilize Statistics from Open Hardware Monitor - for Window
   - [Authors](#authors)
   - [License](#license)
   - [Acknowledgments](#acknowledgments)
+
+## Changelog
+```
+v6.0.0 - Graphs, Gauges, and Settings - Oh My
+  - New Graphs and Gauages for Memory
+  - Added in new Settings for the Touch Portal api 3.0 version updates
+    - Now set customized thresholds so you can have more cutoffs than the default 3.
+    - Set individual colors per needle, or bar graph by sensor value - instead of only a single color for each
+    - Turn on/off building the images if you aren't using them - don't waste the processing power
+```
 
 ## Current Sensors and Values Available
 
@@ -253,6 +264,9 @@ Configuration has moved to use the Touch Portal settings section instead of it's
 The new settings will allow for better customization of the threshold levels, and wording
 and also be able to configure gauges and bargraphs independently from each other.
 
+TODO: Settings Picture
+
+TODO: Settings Writeup
 
 ## Troubleshooting
 
@@ -274,6 +288,8 @@ and a little lower you should see something like this:
 ```
 
 There is also a logfile under the OpenHardwareMonitor plugin folder, %APPDATA%\TouchPortal\plugins\OpenHardwareMonitor\tp_ohm.log
+in order to change the debug level - you will need to create a file called .tpohm_debug_flag in the same directory as mentioned above
+If I am asking you debug something, set the file to the value 3, as that will output the Debug level messages.
 
 ```
 [START] tp_ohm is starting up, and about to connect

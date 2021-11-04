@@ -2,7 +2,7 @@ package Spdermn02::Dashboard;
 
 use strict;
 
-#use vars qw($VERSION @ISA @EXPORT @EXPORT_OK);
+use vars qw($VERSION @ISA @EXPORT @EXPORT_OK);
 
 $Spdermn02::Dashboard::VERSION = '0.04';
 
@@ -157,7 +157,8 @@ sub write_jpeg {
 package Spdermn02::Dashboard::Gauge;
 
 use GD;
-use GD::Image qw( gdMediumBoldFont  gdGiantFont);
+
+#  use GD::Image qw( gdMediumBoldFont  gdGiantFont);
 
 #
 # Constructor Options
@@ -215,9 +216,9 @@ sub write_gdimagehandle {
 
     my $color = $im->colorAllocate( 255, 255, 255 );
 
-    # TODO: Saving this for later 
-    #$im->useFontConfig(1);
-    #$im->stringFT($color,'..\..\digital-7.ttf',25,0,$self->{'NX'} - 30, $self->{'NY'} + 20 , sprintf("%5s%%",$self->{'VAL'}));
+# TODO: Saving this for later
+#$im->useFontConfig(1);
+#$im->stringFT($color,'..\..\digital-7.ttf',25,0,$self->{'NX'} - 30, $self->{'NY'} + 20 , sprintf("%5s%%",$self->{'VAL'}));
 
     #$im->string( gdGiantFont,
     #    ( $self->{'NX'} - 30 ),
